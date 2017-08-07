@@ -8,4 +8,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Customer\Model\EmailNotificationInterface">
+        <plugin name="g2sc_disable_mail_send"
+                type="Ho\GuestToShadowCustomer\Plugin\Model\AccountManagement"
+                sortOrder="1" />
+    </type>
+    <type name="\Magento\Sales\Api\OrderCustomerManagementInterface">
+        <plugin name="g2sc_add_parameter"
+                type="Ho\GuestToShadowCustomer\Plugin\Api\OrderCustomerManagementInterface"
+                sortOrder="1" />
+    </type>
 </config>
