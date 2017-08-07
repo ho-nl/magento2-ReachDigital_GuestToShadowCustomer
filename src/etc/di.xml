@@ -3,8 +3,8 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="g2sc_info" xsi:type="object">Ho\GuestToShadowCustomer\Console\Command\Info</item>
-                <item name="g2sc_create_account" xsi:type="object">Ho\GuestToShadowCustomer\Console\Command\CreateAccount</item>
+                <item name="g2sc_info" xsi:type="object">Ho\GuestToShadowCustomer\Console\Command\ModuleState</item>
+                <item name="g2sc_from_order_id" xsi:type="object">Ho\GuestToShadowCustomer\Console\Command\CreateCustomer</item>
             </argument>
         </arguments>
     </type>

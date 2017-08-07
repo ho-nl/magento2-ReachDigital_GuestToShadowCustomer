@@ -20,20 +20,29 @@
 
 namespace Ho\GuestToShadowCustomer\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-/**
- * Command for enabling cache
- */
-class CreateAccount extends \Symfony\Component\Console\Command\Command
+use Magento\Sales\Api\OrderCustomerManagementInterface;
+use Magento\Framework\App\State;
+use Magento\Framework\App\Area;
+
+class CreateCustomer extends \Symfony\Component\Console\Command\Command
 {
+    protected $orderCustomerManagement;
+    protected $state;
 
     /**
      * CommandInfo constructor.
      *
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      */
-    public function __construct()
+    public function __construct(
+        OrderCustomerManagementInterface $orderCustomerManagement,
+        State $state
+    )
     {
+        $this->orderCustomerManagement = $orderCustomerManagement;
+        $this->state = $state->setAreaCode(Area::AREA_CRONTAB);
         parent::__construct();
     }
 
@@ -43,8 +52,9 @@ class CreateAccount extends \Symfony\Component\Console\Command\Command
      */
     protected function configure()
     {
-        $this->setName('g2sc:create:account');
+        $this->setName('g2sc:create:from-order-id');
         $this->setDescription('Create shadow customer account by order ID');
+        $this->addArgument('order_id', InputArgument::REQUIRED, __('Order ID'));
         parent::configure();
     }
 
@@ -55,7 +65,7 @@ class CreateAccount extends \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('account has been created.');
+        $this->orderCustomerManagement->create($input->getArgument('order_id'));
     }
 
 
