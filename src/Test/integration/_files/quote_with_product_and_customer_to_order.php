@@ -27,7 +27,6 @@ $checkout = \TddWizard\Fixtures\Checkout\CustomerCheckout::fromCart(
         ->withSimpleProduct(
             $productFixture->getSku()
         )
-        ->withReservedOrderId('100000001')
         ->build()
 );
 $checkout->placeOrder();
