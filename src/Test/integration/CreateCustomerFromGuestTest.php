@@ -4,8 +4,10 @@
  * See LICENSE.txt for license details.
  */
 
-
 namespace Ho\GuestToShadowCustomer\Test\integration;
+
+use Magento\Framework\ObjectManagerInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class CreateCustomerFromGuestTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,6 +19,7 @@ class CreateCustomerFromGuestTest extends \PHPUnit\Framework\TestCase
     {
 
     }
+
 
     public static function getQuoteWithProductAndCustomerToOrderDataFixture()
     {
