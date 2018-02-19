@@ -17,7 +17,6 @@ $product         = \TddWizard\Fixtures\Catalog\ProductBuilder::aSimpleProduct()
     ->withStockQty(10)
     ->withPrice(100)
     ->build();
-// @todo install TddWizard
 $productFixture = new \TddWizard\Fixtures\Catalog\ProductFixture(
     $product
 );
@@ -30,4 +29,3 @@ $checkout = \TddWizard\Fixtures\Checkout\CustomerCheckout::fromCart(
         ->build()
 );
 $checkout->placeOrder();
-// $order->save(); this line is not needed because of placeOrder();
