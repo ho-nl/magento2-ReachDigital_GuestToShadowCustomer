@@ -5,9 +5,8 @@
  */
 
 namespace Ho\GuestToShadowCustomer\Model;
-use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 
-class ConvertGuestOrderToShadowCustomer implements ConvertGuestOrderToShadowCustomerInterface
+class ConvertGuestOrderToShadowCustomer implements \Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
 {
 
     /**
