@@ -7,9 +7,16 @@ namespace Ho\GuestToShadowCustomer\Plugin\Model;
 
 use Magento\Quote\Model\QuoteManagement;
 use Magento\Quote\Model\Quote;
+use \Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
 
 class QuoteManagementPlugin
 {
+    protected $_convertGuestQuoteToShadowCustomer;
+
+    public function __construct(ConvertGuestQuoteToShadowCustomerInterface $convertGuestQuoteToShadowCustomer)
+    {
+        $this->_convertGuestQuoteToShadowCustomer = $convertGuestQuoteToShadowCustomer;
+    }
 
 
     /**
@@ -24,7 +31,7 @@ class QuoteManagementPlugin
      */
     public function beforeSubmit(QuoteManagement $subject, Quote $quote, $orderData = [])
     {
-
+        $this->_convertGuestQuoteToShadowCustomer->execute($quote);
         return [$quote, $orderData];
     }
 }
