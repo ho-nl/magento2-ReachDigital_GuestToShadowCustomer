@@ -6,15 +6,23 @@
 
 namespace Ho\GuestToShadowCustomer\Model;
 
+use \Magento\Sales\Api\OrderCustomerManagementInterface;
+
 class ConvertGuestOrderToShadowCustomer implements \Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
 {
+    protected $_orderCustomerManagement;
+
+    public function __construct(OrderCustomerManagementInterface $orderCustomerManagement)
+    {
+        $this->_orderCustomerManagement = $orderCustomerManagement;
+    }
+
 
     /**
      * @inheritdoc
      */
     public function execute($orderId)
     {
-
+        $this->_orderCustomerManagement->create($orderId);
     }
-
 }
