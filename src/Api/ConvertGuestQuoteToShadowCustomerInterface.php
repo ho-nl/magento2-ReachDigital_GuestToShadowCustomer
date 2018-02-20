@@ -11,7 +11,8 @@ interface ConvertGuestQuoteToShadowCustomerInterface
 
     /**
      * @param $quote
-     *
+     * @throws
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return void
      */
     public function execute($quote);
