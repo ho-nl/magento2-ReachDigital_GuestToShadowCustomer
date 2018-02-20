@@ -79,7 +79,7 @@ class ConvertGuestQuoteToShadowCustomer implements \Ho\GuestToShadowCustomer\Api
     public function execute($quote)
     {
         try {
-            $account = $this->accountManagement->isEmailAvailable($quote->getCustomerEmail(), $quote->getStore()->getWebsiteId());
+            $account = $this->customerRepository->get($quote->getCustomerEmail(), $quote->getStore()->getWebsiteId());
         }
         catch (NoSuchEntityException $exception) {
             $customerData = $this->objectCopyService->copyFieldsetToTarget(
@@ -122,6 +122,7 @@ class ConvertGuestQuoteToShadowCustomer implements \Ho\GuestToShadowCustomer\Api
         }
         $quote->setCustomer($account);
         $quote->setCustomerId($account->getId());
+        $quote->setCustomerIsGuest(false);
     }
 
 }
