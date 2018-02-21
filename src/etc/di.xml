@@ -3,7 +3,6 @@
     <preference for="Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface" type="Ho\GuestToShadowCustomer\Model\ConvertGuestOrderToShadowCustomer"/>
     <preference for="Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface" type="Ho\GuestToShadowCustomer\Model\ConvertGuestQuoteToShadowCustomer"/>
     <preference for="Magento\Sales\Api\Data\OrderInterface" type="Magento\Sales\Model\Order"/>
-    <type name="Magento\Quote\Model\QuoteManagement">
-        <plugin sortOrder="1" name="hoGuestToShadowCustomerQuoteManagement" type="Ho\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" />
-    </type>
+    <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl" type="Ho\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
+    <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="hoGuestToShadowCustomerQuoteManagement" type="Ho\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" /></type>
 </config>
