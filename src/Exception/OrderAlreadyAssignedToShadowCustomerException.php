@@ -6,7 +6,7 @@
 
 namespace Ho\GuestToShadowCustomer\Exception;
 
-class OrderAlreadyAssignedToShadowCustomerException extends \Magento\Framework\Exception\LocalizedException
+class OrderAlreadyAssignedToShadowCustomerException extends \Magento\Framework\Exception\AlreadyExistsException
 {
 
 }
