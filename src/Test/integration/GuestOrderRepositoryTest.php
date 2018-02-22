@@ -4,13 +4,15 @@
  * See LICENSE.txt for license details.
  */
 
+//declare(strict_types=1);
+
 namespace Ho\GuestToShadowCustomer\Test\Integration;
 
 use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
-use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\Helper\Bootstrap;
+
 
 class GuestOrderRepositoryTest extends TestCase
 {
@@ -27,27 +29,21 @@ class GuestOrderRepositoryTest extends TestCase
      */
     protected $_searchCriteriaBuilder;
 
-    /**
-     * @var CustomerRegistry
-     */
-    protected $_customerRegistry;
-
     protected function setUp()
     {
         parent::setUp();
         $this->_objectManager = Bootstrap::getObjectManager();
         $this->_guestOrderRepository = $this->_objectManager->create(GuestOrderRepositoryInterface::class);
         $this->_searchCriteriaBuilder = $this->_objectManager->create(SearchCriteriaBuilder::class);
-        $this->_customerRegistry = $this->_objectManager->create(CustomerRegistry::class);
     }
 
 
     /**
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testGuestOrderRepositoryList()
     {
         $searchCriteria = $this->_searchCriteriaBuilder->create();
-        echo $this->_guestOrderRepository->getList($searchCriteria)->getTotalCount();
+        $this->assertEquals(1, $this->_guestOrderRepository->getList($searchCriteria)->getTotalCount());
     }
 }

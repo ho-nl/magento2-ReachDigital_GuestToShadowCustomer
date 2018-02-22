@@ -12,6 +12,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Sales\Api\OrderCustomerManagementInterface;
 use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
 
 class ConvertGuestOrderToShadowCustomer implements ConvertGuestOrderToShadowCustomerInterface
 {
@@ -23,10 +24,13 @@ class ConvertGuestOrderToShadowCustomer implements ConvertGuestOrderToShadowCust
 
     protected $_customerRegistry;
 
-    public function __construct(OrderCustomerManagementInterface $orderCustomerManagement,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+
+    public function __construct(
+        OrderCustomerManagementInterface $orderCustomerManagement,
+        OrderRepositoryInterface $orderRepository,
         CustomerRepositoryInterface $customerRepository,
-CustomerRegistry $customerRegistry)
+        CustomerRegistry $customerRegistry
+    )
     {
         $this->_orderCustomerManagement = $orderCustomerManagement;
         $this->_orderRepository = $orderRepository;
