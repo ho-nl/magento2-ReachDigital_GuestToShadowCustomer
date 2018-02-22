@@ -10,9 +10,10 @@ use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
 use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerRegistry;
-use \Magento\Sales\Api\OrderCustomerManagementInterface;
+use Magento\Sales\Api\OrderCustomerManagementInterface;
+use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 
-class ConvertGuestOrderToShadowCustomer implements \Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
+class ConvertGuestOrderToShadowCustomer implements ConvertGuestOrderToShadowCustomerInterface
 {
     protected $_orderCustomerManagement;
 

@@ -14,7 +14,8 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Model\CustomerRegistry;
 use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
 use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
-class ConvertGuestOrderToShadowCustomerTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+class ConvertGuestOrderToShadowCustomerTest extends TestCase
 {
 
     /**

@@ -15,8 +15,9 @@ use Magento\Framework\DataObject\Copy;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote;
 use Magento\Sales\Api\OrderCustomerManagementInterface;
+use Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
 
-class ConvertGuestQuoteToShadowCustomer implements \Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface
+class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCustomerInterface
 {
     /**
      * @var OrderCustomerManagementInterface
@@ -122,7 +123,7 @@ class ConvertGuestQuoteToShadowCustomer implements \Ho\GuestToShadowCustomer\Api
         }
         $quote->setCustomer($account);
         $quote->setCustomerId($account->getId());
-        $quote->setCustomerIsGuest(false);
+        $quote->setCustomerIsGuest(true);
     }
 
 }
