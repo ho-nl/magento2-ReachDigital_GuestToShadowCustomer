@@ -10,7 +10,7 @@ use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
-class ConvertGuestOrderToShadowCustomer
+class ConvertGuestOrderToShadowCustomerCron
 {
 
     /** @var  GuestOrderRepositoryInterface */
@@ -18,6 +18,9 @@ class ConvertGuestOrderToShadowCustomer
 
     /** @var SearchCriteriaBuilder */
     protected $_searchCriteriaBuilder;
+
+    /** @var ConvertGuestOrderToShadowCustomerInterface  */
+    protected $_convertGuestOrderToShadowCustomer;
 
 
     public function __construct(GuestOrderRepositoryInterface $guestOrderRepository,
@@ -36,7 +39,7 @@ class ConvertGuestOrderToShadowCustomer
         $searchCriteria = $this->_searchCriteriaBuilder->create();
         $orders = $this->_guestOrderRepository->getList($searchCriteria);
         if ($orders->getTotalCount() > 0) {
-            foreach ($orders as $order) {
+            foreach ($orders->getItems() as $order) {
                 $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
             }
         }
