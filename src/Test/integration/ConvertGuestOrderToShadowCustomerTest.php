@@ -39,7 +39,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $this->_objectManager = Bootstrap::getObjectManager();
         $this->_convertGuestOrderToShadowCustomer = $this->_objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
         $this->_customerRegistry = $this->_objectManager->create(CustomerRegistry::class);
-
     }
 
     /**
@@ -53,6 +52,22 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Sales/_files/order.php
+     */
+    public function testConvertGuestOrderToShadowCustomerWithoutNewAccountConfirmation()
+    {
+        $transportBuilderMock = $this->_objectManager->get(\Magento\TestFramework\Mail\Template\TransportBuilderMock::class);
+        $order = $this->_objectManager->create(OrderInterface::class);
+        $customerRepository = $this->_objectManager->create(CustomerRepositoryInterface::class);
+        $order->loadByIncrementId('100000001');
+        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $customer = $customerRepository->get('customer@null.com');
+        $this->assertEquals('customer@null.com', $customer->getEmail());
+        /** @var TransportBuilderMock $transportBuilderMock */
+        $this->assertNull($transportBuilderMock->getSentMessage());
     }
 
 

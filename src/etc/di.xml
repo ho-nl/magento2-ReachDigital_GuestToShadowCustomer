@@ -6,4 +6,5 @@
     <preference for="Magento\Sales\Api\Data\OrderInterface" type="Magento\Sales\Model\Order"/>
     <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl" type="Ho\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
     <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="hoGuestToShadowCustomerQuoteManagement" type="Ho\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" /></type>
+    <type name="Magento\Customer\Model\EmailNotificationInterface"><plugin sortOrder="1" name="hoGuestToShadowCustomerEmailNotificationInterface" type="Ho\GuestToShadowCustomer\Plugin\EmailNotificationInterfacePlugin" /></type>
 </config>
