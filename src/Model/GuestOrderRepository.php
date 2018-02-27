@@ -9,12 +9,11 @@ namespace Ho\GuestToShadowCustomer\Model;
 use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 
 class GuestOrderRepository implements GuestOrderRepositoryInterface
 {
-    CONST SALES_ORDER_GUEST_COLUMN_NAME = 'customer_is_guest';
-
     protected $_orderRepository;
 
     protected $_searchCriteriaBuilder;
@@ -36,10 +35,10 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
         SearchCriteriaInterface $searchCriteria
     ) {
         $searchCriteria = $this->_searchCriteriaBuilder->addFilter(
-            self::SALES_ORDER_GUEST_COLUMN_NAME,
+            OrderInterface::CUSTOMER_IS_GUEST,
             1
         )->create();
-        $searchResult   = $this->_orderRepository->getList($searchCriteria);
+        $searchResult = $this->_orderRepository->getList($searchCriteria);
         return $searchResult;
     }
 }

@@ -56,6 +56,7 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
      */
     public function testExecute()
     {
+        // @todo hoe gaan we om met 100.000 orders? Aparte test hiervoor. User Story 9
         $this->_convertGuestOrderToShadowCustomerCron->execute();
         $customers = $this->_customerRepository->getList($this->_searchCriteria);
         $this->assertEquals(3, $customers->getTotalCount());

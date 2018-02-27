@@ -14,6 +14,9 @@ class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertGuestQuoteToShadowCustomer()
     {
+
+        // @todo check daadwerkelijk of de shadow customer bestaat
+        // @todo Model folder van de plugin eruit halen.
     }
     
     public static function getQuoteWithProductAndCustomerToOrderDataFixture()

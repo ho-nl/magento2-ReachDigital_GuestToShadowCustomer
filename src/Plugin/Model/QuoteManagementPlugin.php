@@ -20,6 +20,7 @@ class QuoteManagementPlugin
 
 
     /**
+     * @todo naam aanpassen: ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin
      * Since a customer is necessary to create a billing agreement
      * This is done at this point because the customer ID is needed as 'shopperReference'
      * in the Adyen recurring contract notification

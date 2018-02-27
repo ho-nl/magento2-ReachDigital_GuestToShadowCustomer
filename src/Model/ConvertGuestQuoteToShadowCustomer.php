@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2018 Reach Digital, http://www.reachdigital.nl
+ * Copyright © Reach Digital (https://www.reachdigital.io/)
  * See LICENSE.txt for license details.
  */
 
@@ -13,40 +13,42 @@ use Magento\Customer\Api\Data\CustomerInterfaceFactory;
 use Magento\Customer\Api\Data\RegionInterfaceFactory;
 use Magento\Framework\DataObject\Copy;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote;
-use Magento\Sales\Api\OrderCustomerManagementInterface;
 use Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
 
 class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCustomerInterface
 {
     /**
-     * @var OrderCustomerManagementInterface
-     */
-    private $orderCustomerService;
-    /**
      * @var Copy
      */
     private $objectCopyService;
+
     /**
      * @var AddressInterfaceFactory
      */
     private $addressFactory;
+
     /**
      * @var AccountManagementInterface
      */
     private $accountManagement;
+
     /**
      * @var CustomerInterfaceFactory
      */
     private $customerFactory;
+
     /**
      * @var RegionInterfaceFactory
      */
     private $regionFactory;
+
     /**
      * @var CustomerRepositoryInterface
      */
     private $customerRepository;
+
     /**
      * @param Copy $objectCopyService
      * @param AddressInterfaceFactory $addressFactory
@@ -54,7 +56,6 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
      * @param CustomerInterfaceFactory $customerFactory
      * @param CustomerRepositoryInterface $customerRepository
      * @param RegionInterfaceFactory $regionFactory
-     * @param \Magento\Sales\Api\OrderCustomerManagementInterface $orderCustomerService
      */
     public function __construct(
         Copy $objectCopyService,
@@ -62,10 +63,8 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
         AccountManagementInterface $accountManagement,
         CustomerInterfaceFactory $customerFactory,
         CustomerRepositoryInterface $customerRepository,
-        RegionInterfaceFactory $regionFactory,
-        OrderCustomerManagementInterface $orderCustomerService
+        RegionInterfaceFactory $regionFactory
     ) {
-        $this->orderCustomerService = $orderCustomerService;
         $this->objectCopyService = $objectCopyService;
         $this->addressFactory = $addressFactory;
         $this->accountManagement = $accountManagement;
@@ -74,15 +73,21 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
         $this->customerRepository = $customerRepository;
     }
 
+
     /**
-     * @inheritdoc
+     * @param CartInterface|Quote $quote
+     *
+     * @throws \InvalidArgumentException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute($quote)
+    public function execute(CartInterface $quote)
     {
         try {
-            $account = $this->customerRepository->get($quote->getCustomerEmail(), $quote->getStore()->getWebsiteId());
-        }
-        catch (NoSuchEntityException $exception) {
+            $account = $this->customerRepository->get(
+                $quote->getCustomerEmail(),
+                $quote->getStore()->getWebsiteId()
+            );
+        } catch (NoSuchEntityException $exception) {
             $customerData = $this->objectCopyService->copyFieldsetToTarget(
                 'order_address',
                 'to_customer',
@@ -107,7 +112,7 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
                         $customerAddress->setIsDefaultShipping(true);
                         break;
                 }
-                if (is_string($address->getRegion())) {
+                if (\is_string($address->getRegion())) {
                     /** @var \Magento\Customer\Api\Data\RegionInterface $region */
                     $region = $this->regionFactory->create();
                     $region->setRegion($address->getRegion());

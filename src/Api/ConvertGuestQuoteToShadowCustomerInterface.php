@@ -6,6 +6,8 @@
 
 namespace Ho\GuestToShadowCustomer\Api;
 
+use Magento\Quote\Api\Data\CartInterface;
+
 interface ConvertGuestQuoteToShadowCustomerInterface
 {
 
@@ -15,6 +17,6 @@ interface ConvertGuestQuoteToShadowCustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return void
      */
-    public function execute($quote);
+    public function execute(CartInterface $quote);
 
 }

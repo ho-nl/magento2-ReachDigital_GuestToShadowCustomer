@@ -13,6 +13,7 @@ interface ConvertGuestOrderToShadowCustomerInterface
      * @param $orderId
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException (something went wrong, do not catch, let the script crash)
+     * @throws \Magento\Framework\Exception\AlreadyExistsException (something went wrong, do not catch, let the script crash)
      * @throws \Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException (should catch in the cron, this is ok)
      * @throws \Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException (something went wrong, do not catch, let the script crash
      * @return void

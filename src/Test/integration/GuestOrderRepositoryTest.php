@@ -43,6 +43,7 @@ class GuestOrderRepositoryTest extends TestCase
      */
     public function testGuestOrderRepositoryList()
     {
+        // @todo nog een fixture erbij om te kijken of er daadwerkelijke die ene guestorder opgehaald wordt.
         $searchCriteria = $this->_searchCriteriaBuilder->create();
         $this->assertEquals(1, $this->_guestOrderRepository->getList($searchCriteria)->getTotalCount());
     }
