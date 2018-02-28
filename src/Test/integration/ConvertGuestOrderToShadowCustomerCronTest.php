@@ -4,9 +4,9 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Test\Integration;
+namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
-use Ho\GuestToShadowCustomer\Cron\ConvertGuestOrderToShadowCustomerCron;
+use ReachDigital\GuestToShadowCustomer\Cron\ConvertGuestOrderToShadowCustomerCron;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -19,34 +19,34 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $_objectManager;
+    private $objectManager;
 
     /**
      * @var ConvertGuestOrderToShadowCustomerCron
      */
-    protected $_convertGuestOrderToShadowCustomerCron;
+    private $convertGuestOrderToShadowCustomerCron;
 
     /**
      * @var CustomerRepositoryInterface
      */
-    protected $_customerRepository;
+    private $customerRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    protected $_searchCriteriaBuilder;
+    private $searchCriteriaBuilder;
 
     /** @var  SearchCriteria */
-    protected $_searchCriteria;
+    private $searchCriteria;
 
-    protected function setUp()
+    private function setUp()
     {
         parent::setUp();
-        $this->_objectManager         = Bootstrap::getObjectManager();
-        $this->_convertGuestOrderToShadowCustomerCron = $this->_objectManager->create(ConvertGuestOrderToShadowCustomerCron::class);
-        $this->_customerRepository = $this->_objectManager->create(CustomerRepositoryInterface::class);
-        $this->_searchCriteriaBuilder = $this->_objectManager->create(SearchCriteriaBuilder::class);
-        $this->_searchCriteria = $this->_searchCriteriaBuilder->create();
+        $this->objectManager         = Bootstrap::getObjectManager();
+        $this->convertGuestOrderToShadowCustomerCron = $this->objectManager->create(ConvertGuestOrderToShadowCustomerCron::class);
+        $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
+        $this->searchCriteriaBuilder = $this->objectManager->create(SearchCriteriaBuilder::class);
+        $this->searchCriteria = $this->searchCriteriaBuilder->create();
     }
 
 
@@ -57,8 +57,8 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     public function testExecute()
     {
         // @todo hoe gaan we om met 100.000 orders? Aparte test hiervoor. User Story 9
-        $this->_convertGuestOrderToShadowCustomerCron->execute();
-        $customers = $this->_customerRepository->getList($this->_searchCriteria);
+        $this->convertGuestOrderToShadowCustomerCron->execute();
+        $customers = $this->customerRepository->getList($this->searchCriteria);
         $this->assertEquals(3, $customers->getTotalCount());
     }
 }

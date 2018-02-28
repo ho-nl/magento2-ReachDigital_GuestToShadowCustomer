@@ -11,7 +11,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Ho\\GuestToShadowCustomer\\": "src/"
+            "ReachDigital\\GuestToShadowCustomer\\": "src/"
         }
     }
 }

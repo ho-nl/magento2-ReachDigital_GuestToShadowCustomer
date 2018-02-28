@@ -4,24 +4,24 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Model;
+namespace ReachDigital\GuestToShadowCustomer\Model;
 
-use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
-use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
+use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
+use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Sales\Api\OrderCustomerManagementInterface;
-use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
+use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 
 class ConvertGuestOrderToShadowCustomer
     implements ConvertGuestOrderToShadowCustomerInterface
 {
-    protected $_orderCustomerManagement;
+    private $orderCustomerManagement;
 
-    protected $_orderRepository;
+    private $orderRepository;
 
-    protected $_customerRegistry;
+    private $customerRegistry;
 
 
     public function __construct(
@@ -30,9 +30,9 @@ class ConvertGuestOrderToShadowCustomer
         CustomerRepositoryInterface $customerRepository,
         CustomerRegistry $customerRegistry
     ) {
-        $this->_orderCustomerManagement = $orderCustomerManagement;
-        $this->_orderRepository = $orderRepository;
-        $this->_customerRegistry = $customerRegistry;
+        $this->orderCustomerManagement = $orderCustomerManagement;
+        $this->orderRepository = $orderRepository;
+        $this->customerRegistry = $customerRegistry;
     }
 
 
@@ -41,13 +41,13 @@ class ConvertGuestOrderToShadowCustomer
      */
     public function execute($orderId)
     {
-        $order = $this->_orderRepository->get($orderId);
+        $order = $this->orderRepository->get($orderId);
 
         if ($order->getCustomerId()) {
-            /** @todo verplaats de IF logica in een variable. $hash = $this->_customerRegistry
+            /** @todo verplaats de IF logica in een variable. $hash = $this->customerRegistry
                             ->retrieveSecureData($order->getCustomerId())
                             ->getPasswordHash() */
-            if ($this->_customerRegistry
+            if ($this->customerRegistry
                 ->retrieveSecureData($order->getCustomerId())
                 ->getPasswordHash()) {
                 throw new OrderAlreadyAssignedToCustomerException();
@@ -56,6 +56,6 @@ class ConvertGuestOrderToShadowCustomer
             throw new OrderAlreadyAssignedToShadowCustomerException(__("Order already assigned to shadow customer exception"));
         }
 
-        $this->_orderCustomerManagement->create($orderId);
+        $this->orderCustomerManagement->create($orderId);
     }
 }

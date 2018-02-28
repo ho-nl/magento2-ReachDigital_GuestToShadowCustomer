@@ -4,7 +4,7 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Plugin;
+namespace ReachDigital\GuestToShadowCustomer\Plugin;
 
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\CustomerRegistry;
@@ -15,12 +15,12 @@ class PreventNewAccountEmailNotificationInterfacePlugin
 {
     /** @todo alle properties worden private */
     /** @var  CustomerRegistry */
-    protected $_customerRegistry;
+    private $customerRegistry;
 
     public function __construct(CustomerRegistry $customerRegistry)
     {
         /** @todo alle variables aanpassen naar format zonder underscore */
-        $this->_customerRegistry = $customerRegistry;
+        $this->customerRegistry = $customerRegistry;
     }
 
 
@@ -45,7 +45,7 @@ class PreventNewAccountEmailNotificationInterfacePlugin
         $sendemailStoreId = null
     ) {
         // @todo noSuchEntity afhandelen, exception test toevoegen.
-        if (!$this->_customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash()) {
+        if (!$this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash()) {
             return;
         }
         return $proceed($customer, $type, $backUrl, $storeId, $sendemailStoreId);

@@ -4,7 +4,7 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Model;
+namespace ReachDigital\GuestToShadowCustomer\Model;
 
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
@@ -15,7 +15,7 @@ use Magento\Framework\DataObject\Copy;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote;
-use Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
+use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
 
 class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCustomerInterface
 {
@@ -83,10 +83,7 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
     public function execute(CartInterface $quote)
     {
         try {
-            $account = $this->customerRepository->get(
-                $quote->getCustomerEmail(),
-                $quote->getStore()->getWebsiteId()
-            );
+            $account = $this->customerRepository->get($quote->getCustomerEmail(), $quote->getStore()->getWebsiteId());
         } catch (NoSuchEntityException $exception) {
             $customerData = $this->objectCopyService->copyFieldsetToTarget(
                 'order_address',

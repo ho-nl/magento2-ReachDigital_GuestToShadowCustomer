@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface" type="Ho\GuestToShadowCustomer\Model\ConvertGuestOrderToShadowCustomer"/>
-    <preference for="Ho\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface" type="Ho\GuestToShadowCustomer\Model\ConvertGuestQuoteToShadowCustomer"/>
-    <preference for="Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface" type="Ho\GuestToShadowCustomer\Model\GuestOrderRepository"/>
+    <preference for="ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface" type="ReachDigital\GuestToShadowCustomer\Model\ConvertGuestOrderToShadowCustomer"/>
+    <preference for="ReachDigital\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface" type="ReachDigital\GuestToShadowCustomer\Model\ConvertGuestQuoteToShadowCustomer"/>
+    <preference for="ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface" type="ReachDigital\GuestToShadowCustomer\Model\GuestOrderRepository"/>
     <preference for="Magento\Sales\Api\Data\OrderInterface" type="Magento\Sales\Model\Order"/>
-    <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl" type="Ho\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
-    <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="hoGuestToShadowCustomerQuoteManagement" type="Ho\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" /></type>
-    <type name="Magento\Customer\Model\EmailNotificationInterface"><plugin sortOrder="1" name="hoGuestToShadowCustomerEmailNotificationInterface" type="Ho\GuestToShadowCustomer\Plugin\EmailNotificationInterfacePlugin" /></type>
+    <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl" type="ReachDigital\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
+    <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="ReachDigitalGuestToShadowCustomerQuoteManagement" type="ReachDigital\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" /></type>
+    <type name="Magento\Customer\Model\EmailNotificationInterface"><plugin sortOrder="1" name="ReachDigitalGuestToShadowCustomerEmailNotificationInterface" type="ReachDigital\GuestToShadowCustomer\Plugin\PreventNewAccountEmailNotificationInterfacePlugin" /></type>
 </config>

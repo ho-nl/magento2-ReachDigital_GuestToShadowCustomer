@@ -4,7 +4,7 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Test\Integration;
+namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
 {

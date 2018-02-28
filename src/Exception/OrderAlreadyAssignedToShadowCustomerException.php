@@ -4,7 +4,7 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Exception;
+namespace ReachDigital\GuestToShadowCustomer\Exception;
 
 class OrderAlreadyAssignedToShadowCustomerException extends \Magento\Framework\Exception\AlreadyExistsException
 {

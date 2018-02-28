@@ -4,44 +4,44 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Test\Integration;
+namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 
-use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
+use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Customer;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Model\CustomerRegistry;
-use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
-use Ho\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
+use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
+use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\Exception\AlreadyExistsException;
 class ConvertGuestOrderToShadowCustomerTest extends TestCase
 {
 
     /**
-     * @var \Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
+     * @var \ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
      */
-    protected $_convertGuestOrderToShadowCustomer;
+    private $convertGuestOrderToShadowCustomer;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $_objectManager;
+    private $objectManager;
 
     /**
      * @var \Magento\Customer\Model\CustomerRegistry
      */
-    protected $_customerRegistry;
+    private $customerRegistry;
 
-    protected function setUp()
+    private function setUp()
     {
         parent::setUp();
-        $this->_objectManager = Bootstrap::getObjectManager();
-        $this->_convertGuestOrderToShadowCustomer = $this->_objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
-        $this->_customerRegistry = $this->_objectManager->create(CustomerRegistry::class);
+        $this->objectManager = Bootstrap::getObjectManager();
+        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
+        $this->customerRegistry = $this->objectManager->create(CustomerRegistry::class);
     }
 
     /**
@@ -49,13 +49,13 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function testConvertGuestOrderToShadowCustomer()
     {
-        $order = $this->_objectManager->create(OrderInterface::class);
-        $customerRepository = $this->_objectManager->create(CustomerRepositoryInterface::class);
+        $order = $this->objectManager->create(OrderInterface::class);
+        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
         // @todo aparte exception test functie toevoegen
 //        $customer = $customerRepository->get('customer@null.com');
 //        $this->assertNull($customer);
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
     }
@@ -66,13 +66,13 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     public function testConvertGuestOrderToShadowCustomerWithoutNewAccountConfirmation()
     {
         // @todo Nog even een test erbij voor MET confirmation, en verplaatsen naar een aparte file qua benaming als de plugin.
-        $order = $this->_objectManager->create(OrderInterface::class);
-        $customerRepository = $this->_objectManager->create(CustomerRepositoryInterface::class);
+        $order = $this->objectManager->create(OrderInterface::class);
+        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
-        $transportBuilderMock = $this->_objectManager->get(\Magento\TestFramework\Mail\Template\TransportBuilderMock::class);
+        $transportBuilderMock = $this->objectManager->get(\Magento\TestFramework\Mail\Template\TransportBuilderMock::class);
         /** @var TransportBuilderMock $transportBuilderMock */
         $this->assertNull($transportBuilderMock->getSentMessage());
     }
@@ -83,10 +83,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function testOrderAlreadyAssignedToCustomerException()
     {
-        $order = $this->_objectManager->create(OrderInterface::class);
+        $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
         $this->expectException(OrderAlreadyAssignedToCustomerException::class);
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
     }
 
 
@@ -95,11 +95,11 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function testOrderAlreadyAssignedToShadowCustomerException()
     {
-        $order = $this->_objectManager->create(OrderInterface::class);
+        $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $this->expectException(OrderAlreadyAssignedToShadowCustomerException::class);
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
     }
 
     /**
@@ -107,16 +107,16 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function testShadowCustomerWithoutPasswordHash()
     {
-        $order              = $this->_objectManager->create(
+        $order              = $this->objectManager->create(
             OrderInterface::class
         );
-        $customerRepository = $this->_objectManager->create(
+        $customerRepository = $this->objectManager->create(
             CustomerRepositoryInterface::class
         );
         $order->loadByIncrementId('100000001');
-        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
-        $this->assertNull($this->_customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
+        $this->assertNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }
 
 
@@ -126,11 +126,11 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     public function testCustomerWithPasswordHash()
     {
 
-        $customerRepository = $this->_objectManager->create(
+        $customerRepository = $this->objectManager->create(
             CustomerRepositoryInterface::class
         );
         $customer = $customerRepository->get('customer@example.com');
-        $this->assertNotNull($this->_customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
+        $this->assertNotNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }
 
 
@@ -140,11 +140,11 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 //    public function testCreateAccountForShadowCustomer()
 //    {
 //
-//        $order = $this->_objectManager->create(OrderInterface::class);
+//        $order = $this->objectManager->create(OrderInterface::class);
 //        $order->loadByIncrementId('100000001');
-//        $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+//        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
 //
-//        $customerRepository = $this->_objectManager->create(CustomerRepositoryInterface::class);
+//        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
 //        /** @var Customer $customer */
 //        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 //            CustomerInterface::class

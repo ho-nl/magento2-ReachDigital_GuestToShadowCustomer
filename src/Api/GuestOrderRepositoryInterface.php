@@ -4,7 +4,7 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Api;
+namespace ReachDigital\GuestToShadowCustomer\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
 

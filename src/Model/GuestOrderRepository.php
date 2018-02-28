@@ -4,9 +4,9 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Model;
+namespace ReachDigital\GuestToShadowCustomer\Model;
 
-use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
+use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -14,17 +14,17 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 
 class GuestOrderRepository implements GuestOrderRepositoryInterface
 {
-    protected $_orderRepository;
+    private $orderRepository;
 
-    protected $_searchCriteriaBuilder;
+    private $searchCriteriaBuilder;
 
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->_orderRepository = $orderRepository;
-        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->orderRepository = $orderRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
 
@@ -34,11 +34,11 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
     public function getList(
         SearchCriteriaInterface $searchCriteria
     ) {
-        $searchCriteria = $this->_searchCriteriaBuilder->addFilter(
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
             OrderInterface::CUSTOMER_IS_GUEST,
             1
         )->create();
-        $searchResult = $this->_orderRepository->getList($searchCriteria);
+        $searchResult = $this->orderRepository->getList($searchCriteria);
         return $searchResult;
     }
 }

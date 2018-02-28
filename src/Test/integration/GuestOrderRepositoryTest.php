@@ -6,9 +6,9 @@
 
 //declare(strict_types=1);
 
-namespace Ho\GuestToShadowCustomer\Test\Integration;
+namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
-use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
+use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -17,24 +17,24 @@ use Magento\TestFramework\Helper\Bootstrap;
 class GuestOrderRepositoryTest extends TestCase
 {
     /** @var  GuestOrderRepositoryInterface */
-    protected $_guestOrderRepository;
+    private $guestOrderRepository;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $_objectManager;
+    private $objectManager;
 
     /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
-    protected $_searchCriteriaBuilder;
+    private $searchCriteriaBuilder;
 
-    protected function setUp()
+    private function setUp()
     {
         parent::setUp();
-        $this->_objectManager = Bootstrap::getObjectManager();
-        $this->_guestOrderRepository = $this->_objectManager->create(GuestOrderRepositoryInterface::class);
-        $this->_searchCriteriaBuilder = $this->_objectManager->create(SearchCriteriaBuilder::class);
+        $this->objectManager = Bootstrap::getObjectManager();
+        $this->guestOrderRepository = $this->objectManager->create(GuestOrderRepositoryInterface::class);
+        $this->searchCriteriaBuilder = $this->objectManager->create(SearchCriteriaBuilder::class);
     }
 
 
@@ -44,7 +44,7 @@ class GuestOrderRepositoryTest extends TestCase
     public function testGuestOrderRepositoryList()
     {
         // @todo nog een fixture erbij om te kijken of er daadwerkelijke die ene guestorder opgehaald wordt.
-        $searchCriteria = $this->_searchCriteriaBuilder->create();
-        $this->assertEquals(1, $this->_guestOrderRepository->getList($searchCriteria)->getTotalCount());
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $this->assertEquals(1, $this->guestOrderRepository->getList($searchCriteria)->getTotalCount());
     }
 }

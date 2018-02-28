@@ -4,23 +4,23 @@
  * See LICENSE.txt for license details.
  */
 
-namespace Ho\GuestToShadowCustomer\Cron;
+namespace ReachDigital\GuestToShadowCustomer\Cron;
 
-use Ho\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
-use Ho\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
+use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
+use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class ConvertGuestOrderToShadowCustomerCron
 {
 
     /** @var  GuestOrderRepositoryInterface */
-    protected $_guestOrderRepository;
+    private $guestOrderRepository;
 
     /** @var SearchCriteriaBuilder */
-    protected $_searchCriteriaBuilder;
+    private $searchCriteriaBuilder;
 
     /** @var ConvertGuestOrderToShadowCustomerInterface  */
-    protected $_convertGuestOrderToShadowCustomer;
+    private $convertGuestOrderToShadowCustomer;
 
 
     public function __construct(GuestOrderRepositoryInterface $guestOrderRepository,
@@ -28,19 +28,26 @@ class ConvertGuestOrderToShadowCustomerCron
         ConvertGuestOrderToShadowCustomerInterface $convertGuestOrderToShadowCustomer
     )
     {
-        $this->_guestOrderRepository = $guestOrderRepository;
-        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->_convertGuestOrderToShadowCustomer = $convertGuestOrderToShadowCustomer;
+        $this->guestOrderRepository = $guestOrderRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->convertGuestOrderToShadowCustomer = $convertGuestOrderToShadowCustomer;
     }
 
 
+    /**
+     *
+     */
     public function execute()
     {
-        $searchCriteria = $this->_searchCriteriaBuilder->create();
-        $orders = $this->_guestOrderRepository->getList($searchCriteria);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $orders = $this->guestOrderRepository->getList($searchCriteria);
         if ($orders->getTotalCount() > 0) {
             foreach ($orders->getItems() as $order) {
-                $this->_convertGuestOrderToShadowCustomer->execute($order->getId());
+                try {
+                    $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+                } catch (\Exception $e) {
+
+                }
             }
         }
 
