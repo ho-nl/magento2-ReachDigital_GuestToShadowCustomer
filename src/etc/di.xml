@@ -5,6 +5,6 @@
     <preference for="ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface" type="ReachDigital\GuestToShadowCustomer\Model\GuestOrderRepository"/>
     <preference for="Magento\Sales\Api\Data\OrderInterface" type="Magento\Sales\Model\Order"/>
     <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl" type="ReachDigital\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
-    <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="ReachDigitalGuestToShadowCustomerQuoteManagement" type="ReachDigital\GuestToShadowCustomer\Plugin\Model\QuoteManagementPlugin" /></type>
+    <type name="Magento\Quote\Model\QuoteManagement"><plugin sortOrder="1" name="ReachDigitalConvertGuestQuoteToCustomerBeforeSubmitPlugin" type="ReachDigital\GuestToShadowCustomer\Plugin\ConvertGuestQuoteToCustomerBeforeSubmitPlugin" /></type>
     <type name="Magento\Customer\Model\EmailNotificationInterface"><plugin sortOrder="1" name="ReachDigitalGuestToShadowCustomerEmailNotificationInterface" type="ReachDigital\GuestToShadowCustomer\Plugin\PreventNewAccountEmailNotificationInterfacePlugin" /></type>
 </config>
