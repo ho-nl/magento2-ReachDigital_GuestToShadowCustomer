@@ -9,7 +9,7 @@ use Magento\Quote\Model\QuoteManagement;
 use Magento\Quote\Model\Quote;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestQuoteToShadowCustomerInterface;
 
-class ConvertGuestQuoteToCustomerBeforeSubmitPlugin
+class ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin
 {
     private $convertGuestQuoteToShadowCustomer;
 
