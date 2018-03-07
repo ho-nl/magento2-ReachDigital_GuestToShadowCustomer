@@ -1,5 +1,5 @@
 {
-    "name": "honl/magento2-guesttoshadowcustomer",
+    "name": "reach-digital/magento2-guesttoshadowcustomer",
     "description": "",
     "require": {
         "php": "~7.0.0"
