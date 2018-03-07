@@ -19,6 +19,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Ho_GuestToShadowCustomer',
+    'ReachDigital_GuestToShadowCustomer',
     __DIR__.'/src'
 );
