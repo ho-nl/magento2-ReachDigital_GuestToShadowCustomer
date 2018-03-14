@@ -39,7 +39,7 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /** @var  SearchCriteria */
     private $searchCriteria;
 
-    private function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->objectManager         = Bootstrap::getObjectManager();

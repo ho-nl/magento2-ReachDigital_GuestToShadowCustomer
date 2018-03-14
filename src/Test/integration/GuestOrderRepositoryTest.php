@@ -29,7 +29,7 @@ class GuestOrderRepositoryTest extends TestCase
      */
     private $searchCriteriaBuilder;
 
-    private function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
