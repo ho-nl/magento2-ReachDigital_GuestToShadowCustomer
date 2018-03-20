@@ -55,15 +55,15 @@ class InstallData implements \Magento\Framework\Setup\InstallDataInterface
         $attributeSet     = $this->attributeSetFactory->create();
         $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
         $customerSetup->addAttribute(Customer::ENTITY, 'is_shadow', [
-            'type' => 'int',
+            'type' => 'static',
             'label' => 'Is Shadow Customer',
-            'input' => 'select',
+            'input' => 'boolean',
             'required' => false,
             'visible' => true,
             'user_defined' => true,
             'is_used_in_grid' => true,
             'system' => 0,
-            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
+            'backend' => \Magento\Customer\Model\Attribute\Backend\Data\Boolean::class,
             'adminhtml_only' => 1,
             'default' => 0
         ]);
