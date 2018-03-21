@@ -10,16 +10,13 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\EmailNotificationInterface;
 
-/** @todo overal naam aanpassen  */
 class PreventNewAccountEmailNotificationInterfacePlugin
 {
-    /** @todo alle properties worden private */
     /** @var  CustomerRegistry */
     private $customerRegistry;
 
     public function __construct(CustomerRegistry $customerRegistry)
     {
-        /** @todo alle variables aanpassen naar format zonder underscore */
         $this->customerRegistry = $customerRegistry;
     }
 
