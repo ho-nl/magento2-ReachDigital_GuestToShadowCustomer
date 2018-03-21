@@ -7,6 +7,7 @@
 namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Customer;
@@ -52,9 +53,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
-        // @todo aparte exception test functie toevoegen
-//        $customer = $customerRepository->get('customer@null.com');
-//        $this->assertNull($customer);
         $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
@@ -63,18 +61,16 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testConvertGuestOrderToShadowCustomerWithoutNewAccountConfirmation()
+    public function testNoSuchCustomerEntityException()
     {
-        // @todo Nog even een test erbij voor MET confirmation, en verplaatsen naar een aparte file qua benaming als de plugin.
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
+        $this->expectException(NoSuchEntityException::class);
+        $customerRepository->get('customer@null.com');
         $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
-        $transportBuilderMock = $this->objectManager->get(\Magento\TestFramework\Mail\Template\TransportBuilderMock::class);
-        /** @var TransportBuilderMock $transportBuilderMock */
-        $this->assertNull($transportBuilderMock->getSentMessage());
     }
 
 
