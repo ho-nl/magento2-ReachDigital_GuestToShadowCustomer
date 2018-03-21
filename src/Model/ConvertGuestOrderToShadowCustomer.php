@@ -44,16 +44,13 @@ class ConvertGuestOrderToShadowCustomer
         $order = $this->orderRepository->get($orderId);
 
         if ($order->getCustomerId()) {
-            /** @todo verplaats de IF logica in een variable. $hash = $this->customerRegistry
+            $hash = $this->customerRegistry
                             ->retrieveSecureData($order->getCustomerId())
-                            ->getPasswordHash() */
-            if ($this->customerRegistry
-                ->retrieveSecureData($order->getCustomerId())
-                ->getPasswordHash()) {
+                            ->getPasswordHash();
+            if ($hash) {
                 throw new OrderAlreadyAssignedToCustomerException();
             }
-            // @todo parameter verwijderen
-            throw new OrderAlreadyAssignedToShadowCustomerException(__("Order already assigned to shadow customer exception"));
+            throw new OrderAlreadyAssignedToShadowCustomerException();
         }
 
         $this->orderCustomerManagement->create($orderId);
