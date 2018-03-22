@@ -14,10 +14,6 @@
         <plugin sortOrder="1" name="ReachDigitalConvertGuestQuoteToCustomerBeforeSubmitPlugin"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin" />
     </type>
-    <type name="Magento\Customer\Model\EmailNotificationInterface">
-        <plugin sortOrder="1" name="ReachDigitalGuestToShadowCustomerEmailNotificationInterface"
-                type="ReachDigital\GuestToShadowCustomer\Plugin\PreventNewAccountEmailNotificationInterfacePlugin" />
-    </type>
     <type name="Magento\Customer\Api\AccountManagementInterface">
         <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerAccountManagementInterface"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementInterfaceApiAroundPlugin"/>

@@ -13,7 +13,7 @@ use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use PHPUnit\Framework\TestCase;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 
-class PreventNewAccountEmailNotificationInterfacePluginTest extends TestCase
+class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
 {
 
     /**
@@ -72,17 +72,44 @@ class PreventNewAccountEmailNotificationInterfacePluginTest extends TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testNewAccountByShadowCustomerEmailWithNotification()
+    public function testNewAccountByShadowCustomer()
     {
-
         $this->order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
-        $customer = $this->customerRepository->get('customer@null.com');
-        $this->customerRepository->save($customer);
+        $shadowCustomer = $this->customerRepository->get('customer@null.com');
+        $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
+        $email     = 'customer@null.com';
+        $storeId   = 1;
+        $firstname = 'Tester';
+        $lastname  = 'McTest';
+        $groupId   = 1;
+        $newCustomerEntity = $this->customerFactory->create()
+            ->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $savedCustomer     = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
+        $this->assertNotNull($savedCustomer->getId());
+        $this->assertEquals($email, $savedCustomer->getEmail());
+        $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($firstname, $savedCustomer->getFirstname());
+        $this->assertEquals($lastname, $savedCustomer->getLastname());
+        $this->assertEquals($groupId, $savedCustomer->getGroupId());
+        $this->assertTrue(!$savedCustomer->getSuffix());
+    }
 
+    /**
+     * @magentoDataFixture Magento/Sales/_files/order.php
+     */
+    public function testNewAccountUsingShadowCustomerEmailWithEmailConfirmation()
+    {
+        $this->order->loadByIncrementId('100000001');
+        $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
+        $shadowCustomer = $this->customerRepository->get('customer@null.com');
+        $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
         $email     = 'customer@null.com';
         $storeId   = 1;
         $firstname = 'Tester';
