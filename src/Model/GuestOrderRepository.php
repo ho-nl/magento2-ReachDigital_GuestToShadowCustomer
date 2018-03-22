@@ -4,27 +4,36 @@
  * See LICENSE.txt for license details.
  */
 
+declare(strict_types=1);
+
 namespace ReachDigital\GuestToShadowCustomer\Model;
 
+use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\Search\FilterGroup;
 use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 
 class GuestOrderRepository implements GuestOrderRepositoryInterface
 {
+    /** @var OrderRepositoryInterface  */
     private $orderRepository;
 
-    private $searchCriteriaBuilder;
+    /** @var  FilterGroup */
+    private $filterGroup;
 
+    /** @var Filter  */
+    private $filter;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        FilterGroup $filterGroup,
+        Filter $filter
     ) {
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterGroup = $filterGroup;
+        $this->filter = $filter;
     }
 
 
@@ -34,11 +43,11 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
     public function getList(
         SearchCriteriaInterface $searchCriteria
     ) {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-            OrderInterface::CUSTOMER_IS_GUEST,
-            1
-        )->create();
-        $searchResult = $this->orderRepository->getList($searchCriteria);
-        return $searchResult;
+
+        $this->filter->setField(OrderInterface::CUSTOMER_IS_GUEST);
+        $this->filter->setValue(1);
+        $this->filterGroup->setFilters([$this->filter]);
+        $searchCriteria->setFilterGroups([$this->filterGroup]);
+        return $this->orderRepository->getList($searchCriteria);
     }
 }

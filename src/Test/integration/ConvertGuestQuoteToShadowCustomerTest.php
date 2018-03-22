@@ -4,6 +4,8 @@
  * See LICENSE.txt for license details.
  */
 
+declare(strict_types=1);
+
 namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
