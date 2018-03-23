@@ -55,22 +55,14 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testGuestToShadowCustomerCronShouldProcessAllGuestOrders()
+    public function testGuestToShadowCustomerCronShouldProcessGuestOrder()
     {
-        // @todo hoe gaan we om met 100.000 orders? Aparte test hiervoor. User Story 9
+        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
+        $this->assertEquals(1, $orders->getTotalCount());
         $this->convertGuestOrderToShadowCustomerCron->execute();
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $orders = $this->guestOrderRepository->getList($this->searchCriteria);
         $this->assertEquals(0, $orders->getTotalCount());
-    }
-
-    /**
-     * @magentoDataFixture Magento/Sales/_files/two_orders_for_one_of_two_customers.php
-     */
-    public function testGuestToShadowCustomerCronShouldNotProcessAllGuestOrders()
-    {
-        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
-        $this->assertEquals(2, $orders->getTotalCount());
     }
 }
