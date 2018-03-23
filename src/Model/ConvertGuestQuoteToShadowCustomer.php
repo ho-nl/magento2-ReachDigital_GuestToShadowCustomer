@@ -123,7 +123,6 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
             }
             /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $this->customerFactory->create(['data' => $customerData]);
-            $customer->setCustomAttribute('is_shadow', 1);
             $account = $this->accountManagement->createAccount($customer);
         }
         $quote->setCustomer($account);
