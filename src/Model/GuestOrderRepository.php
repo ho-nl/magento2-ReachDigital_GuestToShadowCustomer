@@ -46,7 +46,6 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
 
         $this->filter->setField('customer_id');
         $this->filter->setConditionType('null');
-        $this->filter->setValue(true);
         $this->filterGroup->setFilters([$this->filter]);
         $searchCriteria->setFilterGroups([$this->filterGroup]);
         return $this->orderRepository->getList($searchCriteria);
