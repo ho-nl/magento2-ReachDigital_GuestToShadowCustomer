@@ -130,26 +130,4 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $customer = $customerRepository->get('customer@example.com');
         $this->assertNotNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }
-
-
-//    /**
-//     * @magentoDataFixture Magento/Sales/_files/order.php
-//     */
-//    public function testCreateAccountForShadowCustomer()
-//    {
-//
-//        $order = $this->objectManager->create(OrderInterface::class);
-//        $order->loadByIncrementId('100000001');
-//        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
-//
-//        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
-//        /** @var Customer $customer */
-//        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-//            CustomerInterface::class
-//        );
-//        $customer->setEmail("customer@null.com");
-//        $customer->setFirstname("firstname");
-//        $customer->setLastname("lastname");
-//        $customerRepository->save($customer);
-//    }
 }

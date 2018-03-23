@@ -44,8 +44,9 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
         SearchCriteriaInterface $searchCriteria
     ) {
 
-        $this->filter->setField(OrderInterface::CUSTOMER_IS_GUEST);
-        $this->filter->setValue(1);
+        $this->filter->setField('customer_id');
+        $this->filter->setConditionType('null');
+        $this->filter->setValue(true);
         $this->filterGroup->setFilters([$this->filter]);
         $searchCriteria->setFilterGroups([$this->filterGroup]);
         return $this->orderRepository->getList($searchCriteria);

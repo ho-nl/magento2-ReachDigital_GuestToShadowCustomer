@@ -6,9 +6,9 @@
 
 namespace ReachDigital\GuestToShadowCustomer\Cron;
 
+use Magento\Framework\Api\SearchCriteriaInterface;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class ConvertGuestOrderToShadowCustomerCron
 {
@@ -16,31 +16,28 @@ class ConvertGuestOrderToShadowCustomerCron
     /** @var  GuestOrderRepositoryInterface */
     private $guestOrderRepository;
 
-    /** @var SearchCriteriaBuilder */
-    private $searchCriteriaBuilder;
-
     /** @var ConvertGuestOrderToShadowCustomerInterface  */
     private $convertGuestOrderToShadowCustomer;
 
+    /** @var  SearchCriteriaInterface */
+    private $searchCriteria;
 
     public function __construct(GuestOrderRepositoryInterface $guestOrderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaInterface $searchCriteria,
         ConvertGuestOrderToShadowCustomerInterface $convertGuestOrderToShadowCustomer
     )
     {
         $this->guestOrderRepository = $guestOrderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->searchCriteria = $searchCriteria;
         $this->convertGuestOrderToShadowCustomer = $convertGuestOrderToShadowCustomer;
     }
 
-
     /**
-     *
+     * Loop through Guest Orders and Create Shadow(Customer) accounts.
      */
     public function execute()
     {
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $orders = $this->guestOrderRepository->getList($searchCriteria);
+        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
         if ($orders->getTotalCount() > 0) {
             foreach ($orders->getItems() as $order) {
                 try {
