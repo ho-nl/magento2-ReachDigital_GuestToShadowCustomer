@@ -18,4 +18,23 @@
         <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerAccountManagementInterface"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementInterfaceApiAroundPlugin"/>
     </type>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerOrderRepositoryInterface"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\OrderRepositoryInterfaceBeforeSavePlugin"/>
+    </type>
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
+                     type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="joins" xsi:type="array">
+                <item name="customer_data" xsi:type="array">
+                    <item name="table" xsi:type="string">customer_entity</item>
+                    <item name="origin_column" xsi:type="string">customer_id</item>
+                    <item name="target_column" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+            <argument name="columns" xsi:type="array">
+                <item name="is_shadow" xsi:type="string">customer_data.is_shadow</item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

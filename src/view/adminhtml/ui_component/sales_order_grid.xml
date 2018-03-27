@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <column name="is_shadow" sortOrder="100" class="\ReachDigital\GuestToShadowCustomer\Ui\Component\Listing\Column\IsShadow">
+            <settings>
+                <filter>select</filter>
+                <options class="ReachDigital\GuestToShadowCustomer\Ui\Component\Listing\Column\IsShadow\Options"/>
+                <editor>
+                    <editorType>select</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Is Shadow Customer</label>
+            </settings>
+        </column>
+    </columns>
+</listing>
