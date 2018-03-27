@@ -6,33 +6,47 @@
 
 namespace ReachDigital\GuestToShadowCustomer\Setup;
 
+use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\SchemaSetupInterface;
+
 class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 {
 
     /**
      *
      *
-     * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
-     * @param \Magento\Framework\Setup\ModuleContextInterface $context
+     * @param SchemaSetupInterface $setup
+     * @param ModuleContextInterface $context
      *
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function install(
-        \Magento\Framework\Setup\SchemaSetupInterface $setup,
-        \Magento\Framework\Setup\ModuleContextInterface $context
+        SchemaSetupInterface $setup,
+        ModuleContextInterface $context
     ) {
         $installer = $setup;
         $installer->startSetup();
-        $tableName = 'customer_entity';
-        if ($installer->tableExists($tableName)) {
-            $installer->getConnection()->addColumn($tableName,
-                            'is_shadow',
-                            \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-                            null,
-                            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                            'Is Shadow Customer');
-        }
+        $connection = $installer->getConnection();
+        $connection->addColumn('customer_entity',
+            'is_shadow',
+            Table::TYPE_SMALLINT,
+            null,
+            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+            'Is Shadow Customer');
+        $connection->addColumn('sales_order',
+            'is_shadow',
+            Table::TYPE_SMALLINT,
+            null,
+            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+            'Is Shadow Customer');
+        $connection->addColumn('sales_order_grid',
+            'is_shadow',
+            Table::TYPE_SMALLINT,
+            null,
+            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+            'Is Shadow Customer');
         $installer->endSetup();
     }
 }
