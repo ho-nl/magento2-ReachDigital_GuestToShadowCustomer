@@ -48,6 +48,7 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
         $this->filter->setConditionType('null');
         $this->filterGroup->setFilters([$this->filter]);
         $searchCriteria->setFilterGroups([$this->filterGroup]);
+        $searchCriteria->setPageSize(500);
         return $this->orderRepository->getList($searchCriteria);
     }
 }
