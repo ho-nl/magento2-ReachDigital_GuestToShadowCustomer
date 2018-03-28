@@ -37,6 +37,7 @@ class ConvertGuestOrderToShadowCustomerCron
      */
     public function execute()
     {
+        /** @todo check if cron is skipped on 15 minutes interval. */
         $orders = $this->guestOrderRepository->getList($this->searchCriteria);
         if ($orders->getTotalCount() > 0) {
             foreach ($orders->getItems() as $order) {
