@@ -156,6 +156,12 @@ $orderStoreDate = $block->formatDate(
                             <td><?= $block->escapeHtml($groupName) ?></td>
                         </tr>
                     <?php endif; ?>
+
+                    </tr>
+                        <th><?= $block->escapeHtml(__('Shadow Customer:')) ?></th>
+                        <td><?= $block->escapeHtml($block->getIsShadowCustomer()) ?></td>
+                    </tr>
+
                     <?php foreach ($block->getCustomerAccountData() as $data):?>
                         <tr>
                             <th><?= $block->escapeHtml($data['label']) ?></th>

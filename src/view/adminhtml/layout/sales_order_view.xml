@@ -8,7 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="order_tab_info">
-            <block class="ReachDigital\GuestToShadowCustomer\Block\Adminhtml\Sales\Order\View\Info" name="order_info" template="ReachDigital_GuestToShadowCustomer::order/view/info.phtml">
+            <block class="ReachDigital\GuestToShadowCustomer\Block\Adminhtml\SalesOrderViewInfo" name="order_info" template="ReachDigital_GuestToShadowCustomer::order/view/info.phtml">
                 <container name="extra_customer_info"/>
             </block>
         </referenceContainer>
