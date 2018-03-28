@@ -4,11 +4,11 @@
  * See LICENSE.txt for license details.
  */
 
-namespace ReachDigital\GuestToShadowCustomer;
+namespace ReachDigital\GuestToShadowCustomer\Block\Adminhtml;
 
 use Magento\Customer\Block\Adminhtml\Edit\Tab\View\PersonalInfo;
 
-class AdminhtmlCustomerEditTabViewPersonalInfo extends PersonalInfo
+class CustomerEditTabViewPersonalInfo extends PersonalInfo
 {
 
     /**
