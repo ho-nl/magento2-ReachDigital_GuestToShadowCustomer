@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\Data\CustomerInterfaceFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Model\Customer;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -20,7 +20,6 @@ use Magento\Customer\Model\CustomerRegistry;
 use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
 use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
 use PHPUnit\Framework\TestCase;
-use Magento\Framework\Exception\AlreadyExistsException;
 class ConvertGuestOrderToShadowCustomerTest extends TestCase
 {
 
@@ -39,12 +38,20 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     private $customerRegistry;
 
+    /** @var CustomerInterfaceFactory */
+    private $customerFactory;
+
+    /** @var AccountManagementInterface */
+    private $accountManagement;
+
     protected function setUp()
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
         $this->customerRegistry = $this->objectManager->create(CustomerRegistry::class);
+        $this->customerFactory = $this->objectManager->create(CustomerInterfaceFactory::class);
+        $this->accountManagement = $this->objectManager->create(AccountManagementInterface::class);
     }
 
     /**
@@ -57,6 +64,36 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute($order->getId());
         $customer = $customerRepository->get('customer@null.com');
+        $this->assertEquals('customer@null.com', $customer->getEmail());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDbIsolation disabled
+     */
+    public function testAssignGuestOrderToCustomer()
+    {
+        $email     = 'customer@null.com';
+        $storeId   = 1;
+        $firstname = 'Tester';
+        $lastname  = 'McTest';
+        $groupId   = 1;
+        $newCustomerEntity = $this->customerFactory->create()
+            ->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $savedCustomer     = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
+        $this->assertNotNull($savedCustomer->getId());
+        $order = $this->objectManager->create(OrderInterface::class);
+        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
+        $order->loadByIncrementId('100000001');
+        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $customer = $customerRepository->get('customer@null.com');
+        $this->assertNotNull($customer->getId());
+        $order->loadByIncrementId('100000001');
+        $this->assertEquals($order->getCustomerId(), $savedCustomer->getId());
         $this->assertEquals('customer@null.com', $customer->getEmail());
     }
 

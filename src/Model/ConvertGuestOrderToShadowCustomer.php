@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace ReachDigital\GuestToShadowCustomer\Model;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
 use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException;
 use Magento\Customer\Api\CustomerRepositoryInterface;
@@ -25,6 +27,7 @@ class ConvertGuestOrderToShadowCustomer
 
     private $customerRegistry;
 
+    private $customerRepository;
 
     public function __construct(
         OrderCustomerManagementInterface $orderCustomerManagement,
@@ -35,11 +38,12 @@ class ConvertGuestOrderToShadowCustomer
         $this->orderCustomerManagement = $orderCustomerManagement;
         $this->orderRepository = $orderRepository;
         $this->customerRegistry = $customerRegistry;
+        $this->customerRepository = $customerRepository;
     }
-
 
     /**
      * @inheritdoc
+     * @throws LocalizedException
      */
     public function execute($orderId)
     {
@@ -54,7 +58,13 @@ class ConvertGuestOrderToShadowCustomer
             }
             throw new OrderAlreadyAssignedToShadowCustomerException();
         }
+        try {
+            $customer = $this->customerRepository->get($order->getCustomerEmail());
+            $order->setCustomerId($customer->getId());
+            $this->orderRepository->save($order);
+        } catch (NoSuchEntityException $exception) {
+            $this->orderCustomerManagement->create($orderId);
+        }
 
-        $this->orderCustomerManagement->create($orderId);
     }
 }
