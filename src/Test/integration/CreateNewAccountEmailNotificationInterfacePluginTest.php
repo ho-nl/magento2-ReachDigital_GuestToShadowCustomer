@@ -8,9 +8,9 @@ declare(strict_types=1);
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterfaceFactory;
+use Magento\Framework\Mail\TransportInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use PHPUnit\Framework\TestCase;
 use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface;
 
@@ -67,9 +67,8 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
-        $transportBuilderMock = $this->objectManager->get(TransportBuilderMock::class);
-        /** @var TransportBuilderMock $transportBuilderMock */
-        $this->assertNull($transportBuilderMock->getSentMessage());
+        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        $this->assertFalse($transportInterface->getMessage()->getBody());
     }
 
     /**
@@ -130,8 +129,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
         $this->assertTrue(!$savedCustomer->getSuffix());
-        $transportBuilderMock = $this->objectManager->get(TransportBuilderMock::class);
-        /** @var TransportBuilderMock $transportBuilderMock */
-        $this->assertNotNull($transportBuilderMock->getSentMessage());
+        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        $this->assertNotFalse($transportInterface->getMessage()->getBody());
     }
 }
