@@ -69,7 +69,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
-     * @magentoDbIsolation disabled
      */
     public function testAssignGuestOrderToCustomer()
     {
