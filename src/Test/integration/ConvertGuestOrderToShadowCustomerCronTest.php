@@ -55,7 +55,21 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testGuestToShadowCustomerCronShouldProcessGuestOrder()
+    public function testCronShouldProcessGuestOrderToShadowCustomer()
+    {
+        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
+        $this->assertEquals(1, $orders->getTotalCount());
+        $this->convertGuestOrderToShadowCustomerCron->execute();
+        $customer = $this->customerRepository->get('customer@null.com');
+        $this->assertEquals('customer@null.com', $customer->getEmail());
+        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
+        $this->assertEquals(0, $orders->getTotalCount());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testCronShouldProcessNoOrdersToShadowCustomer()
     {
         $orders = $this->guestOrderRepository->getList($this->searchCriteria);
         $this->assertEquals(1, $orders->getTotalCount());
