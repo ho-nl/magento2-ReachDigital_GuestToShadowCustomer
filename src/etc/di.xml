@@ -18,10 +18,6 @@
         <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerAccountManagementInterface"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementInterfaceApiAroundPlugin"/>
     </type>
-    <type name="Magento\Sales\Api\OrderRepositoryInterface">
-        <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerOrderRepositoryInterface"
-                type="ReachDigital\GuestToShadowCustomer\Plugin\OrderRepositoryInterfaceBeforeSavePlugin"/>
-    </type>
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
                      type="Magento\Sales\Model\ResourceModel\Grid">
         <arguments>
