@@ -1,1 +1,2 @@
 # magento2-ReachDigital_GuestToShadowCustomer
+`composer require reach-digital/magento2-guesttoshadowcustomer`

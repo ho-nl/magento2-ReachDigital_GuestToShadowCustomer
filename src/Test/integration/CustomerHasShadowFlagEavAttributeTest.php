@@ -27,9 +27,10 @@ class CustomerHasShadowFlagEavAttributeTest extends TestCase
     }
 
     /**
+     * @test
      * Test if customer has EAV attribute is_shadow
      */
-    public function testCustomerHasShadowEavAttributeFlag()
+    public function should_get_is_shadow_eav_attribute_existence()
     {
         $attributeRepository = $this->objectManager->create(AttributeRepositoryInterface::class);
         $attributeRepository->get(1, 'is_shadow');

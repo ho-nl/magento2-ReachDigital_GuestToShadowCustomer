@@ -59,9 +59,10 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testOrderToShadowCustomerWithoutEmailNotification()
+    public function should_create_shadow_customer_with_no_email_notification()
     {
         $this->order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
@@ -72,9 +73,10 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testNewAccountByShadowCustomer()
+    public function should_be_able_to_register_as_customer_for_a_shadow_customer()
     {
         $this->order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
@@ -102,9 +104,10 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testNewAccountUsingShadowCustomerEmailWithEmailConfirmation()
+    public function should_send_welcome_email_when_shadow_customer_is_converted_to_customer()
     {
         $this->order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());

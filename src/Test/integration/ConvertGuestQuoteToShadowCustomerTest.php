@@ -12,13 +12,11 @@ class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
+     * @test
      * @magentoDataFixture getQuoteWithProductAndCustomerToOrderDataFixture
      */
-    public function testConvertGuestQuoteToShadowCustomer()
+    public function should_convert_guest_quote_to_order_with_shadow_customer()
     {
-
-        // @todo check daadwerkelijk of de shadow customer bestaat
-        // @todo Model folder van de plugin eruit halen.
     }
     
     public static function getQuoteWithProductAndCustomerToOrderDataFixture()

@@ -37,17 +37,19 @@ class GuestOrderRepositoryTest extends TestCase
 
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testShouldReturnGuestOrder()
+    public function should_return_guest_order()
     {
         $this->assertEquals(1, $this->guestOrderRepository->getList($this->searchCriteriaInterface)->getTotalCount());
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
      */
-    public function testShouldNotReturnGuestOrder()
+    public function should_not_return_guest_order()
     {
         $this->assertEquals(0, $this->guestOrderRepository->getList($this->searchCriteriaInterface)->getTotalCount());
     }

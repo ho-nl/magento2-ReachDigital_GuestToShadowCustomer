@@ -60,11 +60,10 @@ class ConvertGuestOrderToShadowCustomer
         }
         try {
             $customer = $this->customerRepository->get($order->getCustomerEmail());
-            $order->setCustomerId($customer->getId());
-            $this->orderRepository->save($order);
         } catch (NoSuchEntityException $exception) {
-            $this->orderCustomerManagement->create($orderId);
+            $customer = $this->orderCustomerManagement->create($orderId);
         }
-
+        $order->setCustomerId($customer->getId());
+        $this->orderRepository->save($order);
     }
 }

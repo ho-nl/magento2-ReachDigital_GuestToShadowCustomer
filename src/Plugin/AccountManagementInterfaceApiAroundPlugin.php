@@ -192,6 +192,6 @@ class AccountManagementInterfaceApiAroundPlugin
 
             return $customer;
         }
-        $proceed($customer, $hash, $redirectUrl);
+        return $proceed($customer, $hash, $redirectUrl);
     }
 }

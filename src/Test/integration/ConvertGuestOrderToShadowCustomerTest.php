@@ -55,9 +55,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testConvertGuestOrderToShadowCustomer()
+    public function should_convert_guest_order_to_shadow_customer()
     {
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
@@ -68,9 +69,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testAssignGuestOrderToCustomer()
+    public function should_assign_guest_order_to_existing_customer_by_email()
     {
         $email     = 'customer@null.com';
         $storeId   = 1;
@@ -97,9 +99,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testNoSuchCustomerEntityException()
+    public function should_get_no_such_customer_entity_exception()
     {
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
@@ -113,9 +116,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
      */
-    public function testOrderAlreadyAssignedToCustomerException()
+    public function should_get_order_already_assigned_to_customer_exception()
     {
         $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
@@ -125,9 +129,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testOrderAlreadyAssignedToShadowCustomerException()
+    public function should_get_order_already_assigned_to_shadow_customer_exception()
     {
         $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
@@ -137,9 +142,10 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     }
 
     /**
+     * @test
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testShadowCustomerWithoutPasswordHash()
+    public function should_get_customer_without_password_hash()
     {
         $order              = $this->objectManager->create(
             OrderInterface::class
@@ -157,7 +163,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     /**
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
      */
-    public function testCustomerWithPasswordHash()
+    public function should_get_customer_with_password_hash()
     {
 
         $customerRepository = $this->objectManager->create(

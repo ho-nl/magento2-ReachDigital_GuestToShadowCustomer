@@ -35,12 +35,6 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
             null,
             ['unsigned' => true, 'nullable' => false, 'default' => '0'],
             'Is Shadow Customer');
-        $connection->addColumn('sales_order',
-            'is_shadow',
-            Table::TYPE_SMALLINT,
-            null,
-            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-            'Is Shadow Customer');
         $connection->addColumn('sales_order_grid',
             'is_shadow',
             Table::TYPE_SMALLINT,

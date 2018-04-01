@@ -10,6 +10,7 @@ namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use ReachDigital\GuestToShadowCustomer\Cron\ConvertGuestOrderToShadowCustomerCron;
 use Magento\Framework\Api\SearchCriteria;
@@ -41,6 +42,9 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /** @var  CustomerRepositoryInterface */
     private $customerRepository;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     protected function setUp()
     {
         parent::setUp();
@@ -49,27 +53,16 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
         $this->guestOrderRepository = $this->objectManager->create(GuestOrderRepositoryInterface::class);
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $this->searchCriteria = $this->objectManager->create(SearchCriteriaInterface::class);
+        $this->orderRepository = $this->objectManager->create(OrderRepositoryInterface::class);
     }
 
 
     /**
+     * @test
+     * NOTE: order_list.php fixture is not being used because the orders are not fetched with OrderRepositoryInterface
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testCronShouldProcessGuestOrderToShadowCustomer()
-    {
-        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
-        $this->assertEquals(1, $orders->getTotalCount());
-        $this->convertGuestOrderToShadowCustomerCron->execute();
-        $customer = $this->customerRepository->get('customer@null.com');
-        $this->assertEquals('customer@null.com', $customer->getEmail());
-        $orders = $this->guestOrderRepository->getList($this->searchCriteria);
-        $this->assertEquals(0, $orders->getTotalCount());
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/two_customers.php
-     */
-    public function testCronShouldProcessNoOrdersToShadowCustomer()
+    public function should_process_guest_order_to_shadow_customer_via_cron()
     {
         $orders = $this->guestOrderRepository->getList($this->searchCriteria);
         $this->assertEquals(1, $orders->getTotalCount());
