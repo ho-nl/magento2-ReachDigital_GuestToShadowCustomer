@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
 	<group id="default">
 		<job instance="ReachDigital\GuestToShadowCustomer\Cron\ConvertGuestOrderToShadowCustomerCron" method="execute" name="reachdigital_guesttoshadowcustomer_convert">
-			<schedule>*/15 * * * *</schedule>
+			<config_path>guest_to_shadow_customer/cron/job_schedule</config_path>
 		</job>
 	</group>
 </config>

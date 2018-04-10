@@ -12,6 +12,7 @@ use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 
 class ConvertGuestOrderToShadowCustomerCron
 {
+    CONST CRON_JOB_CONVERT_GUEST_ORDER_TO_SHADOW_CUSTOMER_NAME = 'reachdigital_guesttoshadowcustomer_convert';
 
     /** @var  GuestOrderRepositoryInterface */
     private $guestOrderRepository;

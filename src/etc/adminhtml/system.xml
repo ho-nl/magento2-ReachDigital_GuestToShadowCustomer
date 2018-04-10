@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © Reach Digital (https://www.reachdigital.io/)
+  ~ See LICENSE.txt for license details.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="reach_digital_config" translate="label" sortOrder="110">
+			<label>Reach Digital</label>
+		</tab>
+		<section id="guest_to_shadow_customer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Guest To Shadow Customer</label>
+			<tab>reach_digital_config</tab>
+			<resource>ReachDigital_GuestToShadowCustomer::config</resource>
+			<group id="cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+				<label>Cron</label>
+				<field id="job_schedule" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+					<label>Job Schedule</label>
+					<validate>cron-expression</validate>
+					<comment><![CDATA[Example: */15 * * * *]]></comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
