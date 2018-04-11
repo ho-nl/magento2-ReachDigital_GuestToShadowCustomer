@@ -6,49 +6,88 @@
 
 namespace ReachDigital\GuestToShadowCustomer\Block\Adminhtml;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Backend\Block\Template;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Api\GroupRepositoryInterface;
-use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
-use Magento\Sales\Api\Data\OrderAddressInterfaceFactory;
-use Magento\Sales\Helper\Admin;
-use Magento\Sales\Model\Order\Address\Renderer;
-use Temando\Shipping\Block\Adminhtml\Sales\Order\View\Info as TemandoShippingOrderInfo;
-use Temando\Shipping\Model\ResourceModel\Order\OrderRepository;
-use Temando\Shipping\Model\Shipment\ShipmentProviderInterface;
 
-class SalesOrderViewInfo extends TemandoShippingOrderInfo
+class SalesOrderViewInfo extends Template
 {
-    /** @var CustomerRepositoryInterface  */
-    private $customerRepository;
 
-    public function __construct(
-        Context $context,
-        Registry $registry,
-        Admin $adminHelper,
-        GroupRepositoryInterface $groupRepository,
-        CustomerMetadataInterface $metadata,
-        ElementFactory $elementFactory,
-        Renderer $addressRenderer,
-        ShipmentProviderInterface $shipmentProvider,
-        OrderAddressInterfaceFactory $addressFactory,
-        OrderRepository $orderRepository,
-        CustomerRepositoryInterface $customerRepository,
-        $data = []
-    ) {
-        parent::__construct($context, $registry, $adminHelper, $groupRepository, $metadata, $elementFactory,
-            $addressRenderer, $shipmentProvider, $addressFactory, $orderRepository, $data);
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
+    /**
+     * @var \Magento\Framework\AuthorizationInterface
+     */
+    protected $_authorization;
 
+    /**
+     * @var \Magento\Framework\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var \Magento\Framework\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
+     * @var \Magento\Framework\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
+    /**
+     * SalesOrderViewInfo constructor.
+     *
+     * @param Registry                    $registry
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param Template\Context            $context
+     * @param array                       $data
+     */
+    public function __construct(Registry $registry, CustomerRepositoryInterface $customerRepository,\Magento\Backend\Block\Template\Context $context, array $data = [])
+    {
         $this->customerRepository = $customerRepository;
+        $this->_coreRegistry = $registry;
+        $this->_localeDate = $context->getLocaleDate();
+        $this->_authorization = $context->getAuthorization();
+        $this->mathRandom = $context->getMathRandom();
+        $this->_backendSession = $context->getBackendSession();
+        $this->formKey = $context->getFormKey();
+        $this->nameBuilder = $context->getNameBuilder();
+        parent::__construct($context, $data);
     }
 
     /**
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
+     * Retrieve available order
+     *
+     * @return Order
      * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getOrder()
+    {
+        if ($this->hasOrder()) {
+            return $this->getData('order');
+        }
+        if ($this->_coreRegistry->registry('current_order')) {
+            return $this->_coreRegistry->registry('current_order');
+        }
+        if ($this->_coreRegistry->registry('order')) {
+            return $this->_coreRegistry->registry('order');
+        }
+        throw new \Magento\Framework\Exception\LocalizedException(__('We can\'t get the order instance right now.'));
+    }
+
+    /**
      * @return bool|\Magento\Framework\Phrase
      */
     public function getIsShadowCustomer()
