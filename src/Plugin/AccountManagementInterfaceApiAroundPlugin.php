@@ -151,10 +151,8 @@ class AccountManagementInterfaceApiAroundPlugin
             }
 
             // Associate website_id with customer
-            if (!$customer->getWebsiteId()) {
-                $websiteId = $this->storeManager->getStore($customer->getStoreId())->getWebsiteId();
-                $customer->setWebsiteId($websiteId);
-            }
+            $websiteId = $this->storeManager->getStore($customer->getStoreId())->getWebsiteId();
+            $customer->setWebsiteId($websiteId);
 
             // Update 'created_in' value with actual store name
             if ($customer->getId() === null) {

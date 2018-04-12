@@ -12,7 +12,6 @@ use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\Search\FilterGroup;
 use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 
 class GuestOrderRepository implements GuestOrderRepositoryInterface

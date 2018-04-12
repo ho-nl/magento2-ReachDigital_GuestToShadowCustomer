@@ -16,12 +16,7 @@ class QuoteRepositoryPluginAccessChangeQuoteControl extends \Magento\Quote\Model
     /**
      * Checks if change quote's customer id is allowed for current user.
      *
-     * @param CartRepositoryInterface $subject
-     * @param Quote $quote
-     * @throws StateException if Guest has customer_id or Customer's customer_id not much with user_id
-     * or unknown user's type
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @inheritdoc
      */
     public function beforeSave(CartRepositoryInterface $subject, CartInterface $quote)
     {

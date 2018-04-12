@@ -22,14 +22,15 @@ class InstallData implements \Magento\Framework\Setup\InstallDataInterface
     private $customerSetupFactory;
 
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute\SetFactor
+     * @var AttributeSetFactory
      */
     private $attributeSetFactory;
 
     /**
-     * Init
+     * InstallData constructor.
      *
-     * @param \Magento\Customer\Setup\CustomerSetupFactory $customerSetupFactory
+     * @param CustomerSetupFactory $customerSetupFactory
+     * @param AttributeSetFactory  $attributeSetFactory
      */
     public function __construct(
         CustomerSetupFactory $customerSetupFactory,
@@ -40,14 +41,14 @@ class InstallData implements \Magento\Framework\Setup\InstallDataInterface
     }
 
     /**
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @param ModuleDataSetupInterface $setup
+     * @param ModuleContextInterface   $context
      */
     public function install(
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
-        /** @var CustomerSetup $customerSetup */
+        /** @var CustomerSetupFactory $customerSetup */
         $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
         $customerEntity = $customerSetup->getEavConfig()->getEntityType('customer');
         $attributeSetId = $customerEntity->getDefaultAttributeSetId();

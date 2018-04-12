@@ -11,6 +11,7 @@ namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use ReachDigital\GuestToShadowCustomer\Cron\ConvertGuestOrderToShadowCustomerCron;

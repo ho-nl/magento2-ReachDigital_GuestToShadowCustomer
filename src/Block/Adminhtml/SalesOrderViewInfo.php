@@ -11,6 +11,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
+use Magento\Sales\Api\Data\OrderInterface;
 
 class SalesOrderViewInfo extends Template
 {
@@ -46,6 +47,9 @@ class SalesOrderViewInfo extends Template
      */
     protected $nameBuilder;
 
+    /** @var CustomerRepositoryInterface  */
+    private $customerRepository;
+
     /**
      * SalesOrderViewInfo constructor.
      *
@@ -70,7 +74,7 @@ class SalesOrderViewInfo extends Template
     /**
      * Retrieve available order
      *
-     * @return Order
+     * @return OrderInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getOrder()
