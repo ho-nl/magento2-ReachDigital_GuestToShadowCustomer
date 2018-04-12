@@ -76,11 +76,13 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     {
         $email     = 'customer@null.com';
         $storeId   = 1;
+        $websiteId   = 1;
         $firstname = 'Tester';
         $lastname  = 'McTest';
         $groupId   = 1;
         $newCustomerEntity = $this->customerFactory->create()
             ->setStoreId($storeId)
+            ->setWebsiteId($websiteId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)

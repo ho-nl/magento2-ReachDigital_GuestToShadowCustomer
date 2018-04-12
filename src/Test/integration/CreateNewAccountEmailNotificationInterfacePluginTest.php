@@ -84,11 +84,13 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
         $email     = 'customer@null.com';
         $storeId   = 1;
+        $websiteId   = 1;
         $firstname = 'Tester';
         $lastname  = 'McTest';
         $groupId   = 1;
         $newCustomerEntity = $this->customerFactory->create()
             ->setStoreId($storeId)
+            ->setWebsiteId($websiteId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)
@@ -97,6 +99,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($storeId, $savedCustomer->getWebsiteId());
         $this->assertEquals($firstname, $savedCustomer->getFirstname());
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
@@ -115,11 +118,13 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
         $email     = 'customer@null.com';
         $storeId   = 1;
+        $websiteId   = 1;
         $firstname = 'Tester';
         $lastname  = 'McTest';
         $groupId   = 1;
         $newCustomerEntity = $this->customerFactory->create()
             ->setStoreId($storeId)
+            ->setWebsiteId($websiteId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)
@@ -128,6 +133,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($websiteId, $savedCustomer->getWebsiteId());
         $this->assertEquals($firstname, $savedCustomer->getFirstname());
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
