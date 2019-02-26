@@ -10,7 +10,7 @@ use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
-class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
+class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
 {
 
     /**
@@ -22,18 +22,18 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function install(
+    public function upgrade(
         SchemaSetupInterface $setup,
         ModuleContextInterface $context
     ) {
         $installer = $setup;
         $installer->startSetup();
         $connection = $installer->getConnection();
-        $connection->addColumn('customer_entity',
+        $connection->addColumn($setup->getTable('customer_entity'),
             'is_shadow',
             Table::TYPE_SMALLINT,
             null);
-        $connection->addColumn('sales_order_grid',
+        $connection->addColumn($setup->getTable('sales_order_grid'),
             'is_shadow',
             Table::TYPE_SMALLINT,
             null);
