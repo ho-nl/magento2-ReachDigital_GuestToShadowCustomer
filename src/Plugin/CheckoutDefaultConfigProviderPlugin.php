@@ -47,7 +47,7 @@ class CheckoutDefaultConfigProviderPlugin
     }
 
     /**
-     * Retrieve quote data
+     * Plugin created to get the correct quote ID (masked) when customer in quote is shadow customer
      *
      * @return array
      */
@@ -59,7 +59,10 @@ class CheckoutDefaultConfigProviderPlugin
             $quoteData = $quote->toArray();
             $quoteData['is_virtual'] = $quote->getIsVirtual();
 
-            if (!$quote->getCustomer()->getId()) {
+            $customAttributes = $quote->getCustomer()->getCustomAttributes();
+            if (!$quote->getCustomer()->getId()
+                || (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
+            ) {
                 /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
                 $quoteIdMask = $this->quoteIdMaskFactory->create();
                 $quoteData['entity_id'] = $quoteIdMask->load(
