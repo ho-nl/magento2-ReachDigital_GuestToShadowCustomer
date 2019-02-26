@@ -10,6 +10,7 @@
     <preference for="Magento\Sales\Api\Data\OrderInterface" type="Magento\Sales\Model\Order"/>
     <preference for="Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl"
                 type="ReachDigital\GuestToShadowCustomer\Model\QuoteRepositoryPluginAccessChangeQuoteControl"/>
+
     <type name="Magento\Quote\Model\QuoteManagement">
         <plugin sortOrder="1" name="ReachDigitalConvertGuestQuoteToCustomerBeforeSubmitPlugin"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin" />
@@ -18,6 +19,11 @@
         <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerAccountManagementInterface"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementInterfaceApiAroundPlugin"/>
     </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="reachDigitalGuestToShadowCustomerDefaultConfigProvider"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\CheckoutDefaultConfigProviderPlugin"/>
+    </type>
+
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
                      type="Magento\Sales\Model\ResourceModel\Grid">
         <arguments>
