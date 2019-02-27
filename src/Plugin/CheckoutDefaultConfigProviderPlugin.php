@@ -43,7 +43,7 @@ class CheckoutDefaultConfigProviderPlugin
     public function afterGetConfig(DefaultConfigProvider $subject, $result)
     {
         $result['quoteData'] = $this->getQuoteData();
-        return [$result];
+        return $result;
     }
 
     /**
