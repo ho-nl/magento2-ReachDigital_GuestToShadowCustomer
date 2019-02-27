@@ -25,18 +25,22 @@ class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
     public function upgrade(
         SchemaSetupInterface $setup,
         ModuleContextInterface $context
-    ) {
+    )
+    {
         $installer = $setup;
         $installer->startSetup();
         $connection = $installer->getConnection();
-        $connection->addColumn($setup->getTable('customer_entity'),
-            'is_shadow',
-            Table::TYPE_SMALLINT,
-            null);
-        $connection->addColumn($setup->getTable('sales_order_grid'),
-            'is_shadow',
-            Table::TYPE_SMALLINT,
-            null);
+
+        if (version_compare($context->getVersion(), '1.0.1', '<')) {
+            $connection->addColumn($setup->getTable('customer_entity'),
+                'is_shadow',
+                Table::TYPE_SMALLINT,
+                null);
+            $connection->addColumn($setup->getTable('sales_order_grid'),
+                'is_shadow',
+                Table::TYPE_SMALLINT,
+                null);
+        }
         $installer->endSetup();
     }
 }
