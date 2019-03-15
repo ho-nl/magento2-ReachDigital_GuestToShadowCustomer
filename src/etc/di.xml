@@ -19,6 +19,10 @@
         <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerAccountManagementInterface"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementInterfaceApiAroundPlugin"/>
     </type>
+    <type name="Magento\Framework\Encryption\Encryptor">
+        <plugin sortOrder="1" name="reachDigitalGuestToShadowCustomerEncryptor"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\EncryptorIgnoreEmptyHash"/>
+    </type>
     <type name="Magento\Checkout\Model\DefaultConfigProvider">
         <plugin name="reachDigitalGuestToShadowCustomerDefaultConfigProvider"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\CheckoutDefaultConfigProviderPlugin"/>
