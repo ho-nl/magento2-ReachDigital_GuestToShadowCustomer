@@ -27,6 +27,10 @@
         <plugin name="reachDigitalGuestToShadowCustomerDefaultConfigProvider"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\CheckoutDefaultConfigProviderPlugin"/>
     </type>
+    <type name="Magento\Customer\Model\AccountManagement">
+        <plugin name="reachDigitalGuestToShadowCustomerAccountManagement"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementPlugin"/>
+    </type>
 
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
                      type="Magento\Sales\Model\ResourceModel\Grid">
