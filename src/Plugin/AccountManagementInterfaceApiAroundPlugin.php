@@ -143,58 +143,11 @@ class AccountManagementInterfaceApiAroundPlugin
                 $customer = $this->customerRepository->getById($customer->getId());
                 $newLinkToken = $this->mathRandom->getUniqueHash();
                 $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
+
                 return $customer;
             }
-            // Make sure we have a storeId to associate this customer with.
-            if (!$customer->getStoreId()) {
-                if ($customer->getWebsiteId()) {
-                    $storeId = $this->storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
-                } else {
-                    $storeId = $this->storeManager->getStore()->getId();
-                }
-                $customer->setStoreId($storeId);
-            }
-
-            // Associate website_id with customer
-            $websiteId = $this->storeManager->getStore($customer->getStoreId())->getWebsiteId();
-            $customer->setWebsiteId($websiteId);
-
-            // Update 'created_in' value with actual store name
-            if ($customer->getId() === null) {
-                $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
-                $customer->setCreatedIn($storeName);
-            }
-
-            $customerAddresses = $customer->getAddresses() ?: [];
-            $customer->setAddresses(null);
-            $customer->setConfirmation(1);
-            // If customer exists existing hash will be used by Repository
-            $customer = $this->customerRepository->save($customer, $hash);
-
-            try {
-                foreach ($customerAddresses as $address) {
-                    if ($address->getId()) {
-                        $newAddress = clone $address;
-                        $newAddress->setId(null);
-                        $newAddress->setCustomerId($customer->getId());
-                        $this->addressRepository->save($newAddress);
-                    } else {
-                        $address->setCustomerId($customer->getId());
-                        $this->addressRepository->save($address);
-                    }
-                }
-                $this->customerRegistry->remove($customer->getId());
-            } catch (InputException $e) {
-                $this->customerRepository->delete($customer);
-                throw $e;
-            }
-            $customer = $this->customerRepository->getById($customer->getId());
-            $newLinkToken = $this->mathRandom->getUniqueHash();
-            $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
-            $accountManagement->resendConfirmation($customer->getEmail(), $websiteId, $redirectUrl);
-
-            return $customer;
         }
+
         return $proceed($customer, $hash, $redirectUrl);
     }
 }
