@@ -13,6 +13,7 @@ use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\CustomerRegistry;
+use Magento\Customer\Model\EmailNotificationInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
@@ -48,18 +49,25 @@ class AccountManagementInterfaceApiAroundPlugin
      */
     private $mathRandom;
 
+    /**
+     * @var EmailNotificationInterface
+     */
+    private $emailNotification;
+
     public function __construct(
         StoreManagerInterface $storeManager,
         Random $mathRandom,
         AddressRepositoryInterface $addressRepository,
         CustomerRegistry $customerRegistry,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        EmailNotificationInterface $emailNotification
     ) {
         $this->storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
         $this->addressRepository = $addressRepository;
         $this->customerRegistry = $customerRegistry;
         $this->customerRepository = $customerRepository;
+        $this->emailNotification = $emailNotification;
     }
 
     /**
@@ -148,6 +156,10 @@ class AccountManagementInterfaceApiAroundPlugin
                 $customer = $this->customerRepository->getById($customer->getId());
                 $newLinkToken = $this->mathRandom->getUniqueHash();
                 $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
+
+                if (!$isShadow) {
+                    $this->emailNotification->newAccount($customer);
+                }
 
                 return $customer;
             }
