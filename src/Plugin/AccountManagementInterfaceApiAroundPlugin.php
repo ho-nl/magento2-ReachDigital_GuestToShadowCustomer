@@ -211,6 +211,10 @@ class AccountManagementInterfaceApiAroundPlugin
             $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
             $accountManagement->resendConfirmation($customer->getEmail(), $websiteId, $redirectUrl);
 
+            if (!$isShadow) {
+                $this->emailNotification->newAccount($customer);
+            }
+
             return $customer;
         }
         return $proceed($customer, $hash, $redirectUrl);
