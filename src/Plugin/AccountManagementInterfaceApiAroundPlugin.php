@@ -1,8 +1,11 @@
 <?php
- /**
+/**
  * Copyright (c) 2018 Reach Digital, http://www.reachdigital.nl
  * See LICENSE.txt for license details.
  */
+
+declare(strict_types=1);
+
 namespace ReachDigital\GuestToShadowCustomer\Plugin;
 
 use Magento\Customer\Api\AccountManagementInterface;
@@ -20,7 +23,9 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class AccountManagementInterfaceApiAroundPlugin
 {
-
+    /**
+     * @var CustomerRepositoryInterface
+     */
     private $customerRepository;
 
     /**
@@ -44,18 +49,18 @@ class AccountManagementInterfaceApiAroundPlugin
     private $mathRandom;
 
     public function __construct(
-            StoreManagerInterface $storeManager,
-            Random $mathRandom,
-            AddressRepositoryInterface $addressRepository,
-            CustomerRegistry $customerRegistry,
-            CustomerRepositoryInterface $customerRepository
-        ) {
-            $this->storeManager = $storeManager;
-            $this->mathRandom = $mathRandom;
-            $this->addressRepository = $addressRepository;
-            $this->customerRegistry = $customerRegistry;
-            $this->customerRepository = $customerRepository;
-        }
+        StoreManagerInterface $storeManager,
+        Random $mathRandom,
+        AddressRepositoryInterface $addressRepository,
+        CustomerRegistry $customerRegistry,
+        CustomerRepositoryInterface $customerRepository
+    ) {
+        $this->storeManager = $storeManager;
+        $this->mathRandom = $mathRandom;
+        $this->addressRepository = $addressRepository;
+        $this->customerRegistry = $customerRegistry;
+        $this->customerRepository = $customerRepository;
+    }
 
     /**
      * @param AccountManagementInterface $accountManagement
