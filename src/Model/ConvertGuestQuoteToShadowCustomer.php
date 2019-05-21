@@ -127,6 +127,6 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
         }
         $quote->setCustomer($account);
         $quote->setCustomerId($account->getId());
+        $quote->setCustomerIsGuest(false);
     }
-
 }
