@@ -54,7 +54,7 @@ class AccountManagementPlugin
             $customer = $this->customerRepository->get($customerEmail, $websiteId);
 
             // Email is 'available' when found customer is shadow customer
-            return $customer->getCustomAttribute('is_shadow')->getValue();
+            return (bool) $customer->getCustomAttribute('is_shadow')->getValue();
         } catch (NoSuchEntityException $e) {
             return true;
         }
