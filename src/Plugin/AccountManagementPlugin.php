@@ -38,14 +38,16 @@ class AccountManagementPlugin
      * @param callable          $proceed
      * @param                   $customerEmail
      * @param null              $websiteId
+     *
      * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function aroundIsEmailAvailable(
         AccountManagement $subject,
         callable $proceed,
         $customerEmail,
         $websiteId = null
-    ) {
+    ) : bool {
         try {
             if ($websiteId === null) {
                 $websiteId = $this->storeManager->getStore()->getWebsiteId();
