@@ -69,7 +69,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $transportInterface = $this->objectManager->get(TransportInterface::class);
-        $this->assertNull($transportInterface->getMessage()->getBody());
+        $this->assertFalse($transportInterface->getMessage()->getBody());
     }
 
     /**
