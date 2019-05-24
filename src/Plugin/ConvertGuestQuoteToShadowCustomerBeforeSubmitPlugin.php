@@ -29,6 +29,10 @@ class ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin
     public function beforeSubmit(QuoteManagement $subject, Quote $quote, $orderData = [])
     {
         $this->convertGuestQuoteToShadowCustomer->execute($quote);
+
+        $quote->getShippingAddress()->setCustomerId($quote->getCustomer()->getId());
+        $quote->getBillingAddress()->setCustomerId($quote->getCustomer()->getId());
+
         return [$quote, $orderData];
     }
 }
