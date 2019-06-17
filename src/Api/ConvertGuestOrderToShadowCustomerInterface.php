@@ -6,18 +6,20 @@
 
 namespace ReachDigital\GuestToShadowCustomer\Api;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException;
+
 interface ConvertGuestOrderToShadowCustomerInterface
 {
-
     /**
-     * @param $orderId
+     * @param int $orderId
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException (something went wrong, do not catch, let the script crash)
-     * @throws \Magento\Framework\Exception\AlreadyExistsException (something went wrong, do not catch, let the script crash)
-     * @throws \ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCustomerException (should catch in the cron, this is ok)
-     * @throws \ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToCustomerException (something went wrong, do not catch, let the script crash
+     * @throws NoSuchEntityException
+     * @throws OrderAlreadyAssignedToCustomerException
+     * @throws LocalizedException
+     *
      * @return void
      */
-    public function execute($orderId);
-
+    public function execute(int $orderId): void;
 }
