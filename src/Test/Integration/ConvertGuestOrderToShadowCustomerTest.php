@@ -63,7 +63,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
     }
@@ -92,7 +92,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertNotNull($customer->getId());
         $order->loadByIncrementId('100000001');
@@ -111,7 +111,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order->loadByIncrementId('100000001');
         $this->expectException(NoSuchEntityException::class);
         $customerRepository->get('customer@null.com');
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
     }
@@ -126,7 +126,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
         $this->expectException(OrderAlreadyAssignedToCustomerException::class);
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
     }
 
 
@@ -138,9 +138,9 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     {
         $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $this->expectException(OrderAlreadyAssignedToShadowCustomerException::class);
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
     }
 
     /**
@@ -156,7 +156,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
             CustomerRepositoryInterface::class
         );
         $order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }
