@@ -12,6 +12,7 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Model\AccountConfirmation;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\EmailNotificationInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
@@ -54,13 +55,19 @@ class AccountManagementInterfaceApiAroundPlugin
      */
     private $emailNotification;
 
+    /**
+     * @var AccountConfirmation
+     */
+    private $accountConfirmation;
+
     public function __construct(
         StoreManagerInterface $storeManager,
         Random $mathRandom,
         AddressRepositoryInterface $addressRepository,
         CustomerRegistry $customerRegistry,
         CustomerRepositoryInterface $customerRepository,
-        EmailNotificationInterface $emailNotification
+        EmailNotificationInterface $emailNotification,
+        AccountConfirmation $accountConfirmation
     ) {
         $this->storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
@@ -68,6 +75,7 @@ class AccountManagementInterfaceApiAroundPlugin
         $this->customerRegistry = $customerRegistry;
         $this->customerRepository = $customerRepository;
         $this->emailNotification = $emailNotification;
+        $this->accountConfirmation = $accountConfirmation;
     }
 
     /**
@@ -187,7 +195,11 @@ class AccountManagementInterfaceApiAroundPlugin
 
             $customerAddresses = $customer->getAddresses() ?: [];
             $customer->setAddresses(null);
-            $customer->setConfirmation(1);
+
+            if ($this->accountConfirmation->isConfirmationRequired($websiteId, $customer->getId(), $customer->getEmail())) {
+                $customer->setConfirmation(1);
+            }
+
             // If customer exists existing hash will be used by Repository
             $customer = $this->customerRepository->save($customer, $hash);
 
@@ -211,7 +223,10 @@ class AccountManagementInterfaceApiAroundPlugin
             $customer = $this->customerRepository->getById($customer->getId());
             $newLinkToken = $this->mathRandom->getUniqueHash();
             $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
-            $accountManagement->resendConfirmation($customer->getEmail(), $websiteId, $redirectUrl);
+
+            if ($this->accountConfirmation->isConfirmationRequired($websiteId, $customer->getId(), $customer->getEmail())) {
+                $accountManagement->resendConfirmation($customer->getEmail(), $websiteId, $redirectUrl);
+            }
 
             if (!$isShadow) {
                 $this->emailNotification->newAccount($customer);

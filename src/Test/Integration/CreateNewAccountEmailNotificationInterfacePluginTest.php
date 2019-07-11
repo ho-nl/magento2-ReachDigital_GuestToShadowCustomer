@@ -65,7 +65,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     public function should_create_shadow_customer_with_no_email_notification()
     {
         $this->order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $transportInterface = $this->objectManager->get(TransportInterface::class);
@@ -81,7 +81,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     public function should_be_able_to_register_as_customer_for_a_shadow_customer()
     {
         $this->order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $shadowCustomer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
         $email     = 'customer@null.com';
@@ -97,7 +97,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setGroupId($groupId);
-        $savedCustomer     = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
+        $savedCustomer = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
@@ -115,7 +115,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     public function should_send_welcome_email_when_shadow_customer_is_converted_to_customer()
     {
         $this->order->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute($this->order->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $shadowCustomer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
         $email     = 'customer@null.com';
