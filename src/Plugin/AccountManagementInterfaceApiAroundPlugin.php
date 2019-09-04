@@ -168,7 +168,12 @@ class AccountManagementInterfaceApiAroundPlugin
                 $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
 
                 if (!$isShadow) {
-                    $this->emailNotification->newAccount($customer);
+                    $this->emailNotification->newAccount(
+                        $customer,
+                        \Magento\Customer\Model\EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
+                        '',
+                        $customer->getStoreId()
+                    );
                 }
 
                 return $customer;
@@ -229,7 +234,12 @@ class AccountManagementInterfaceApiAroundPlugin
             }
 
             if (!$isShadow) {
-                $this->emailNotification->newAccount($customer);
+                $this->emailNotification->newAccount(
+                    $customer,
+                    \Magento\Customer\Model\EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
+                    '',
+                    $customer->getStoreId()
+                );
             }
 
             return $customer;
