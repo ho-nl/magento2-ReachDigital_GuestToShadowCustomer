@@ -32,6 +32,11 @@
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementPlugin"/>
     </type>
 
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="reachDigitalGuestToShadowCustomerPreserveIsShadow"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\PreserveIsShadowWhenSavingCustomer"/>
+    </type>
+
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
                      type="Magento\Sales\Model\ResourceModel\Grid">
         <arguments>
