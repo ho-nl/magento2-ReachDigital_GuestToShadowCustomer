@@ -37,7 +37,8 @@ class PreserveIsShadowWhenSavingCustomer
     public function beforeSave(
         /** @noinspection PhpUnusedParameterInspection */
         CustomerRepository $subject,
-        CustomerInterface $customer
+        CustomerInterface $customer,
+        $passwordHash = null
     ) : array
     {
         try {
@@ -49,6 +50,6 @@ class PreserveIsShadowWhenSavingCustomer
         } catch (NoSuchEntityException $e) {
         } catch (LocalizedException $e) {
         }
-        return [ $customer ];
+        return [ $customer, $passwordHash ];
     }
 }
