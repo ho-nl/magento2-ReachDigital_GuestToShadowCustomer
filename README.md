@@ -20,8 +20,17 @@
 
 ## TODO
 
+- Config setting for enabling or disabling the blocking of password reset function if customer is shadow
+- Correctly set is_shadow if resetting password is enabled for shadow customers
+
 ### Implement more tests:
 
 - Test that is_shadow flag is 0 when user registers
 - Test that is_shadow flag value is maintained when customer is updated through webapi
 - Test that is_shadow flag is 1 when shadow customer is automatically created
+- Test that password reset is not allowed if not enabled and customer is shadow
+- Test that password reset is allowed if enabled and customer is shadow
+- Test correct updating of customer is_shadow flag in customer_grid_flat table (see
+  `\Magento\Customer\Model\ResourceModel\Grid\CollectionTest::testGetItemByIdForUpdateOnSchedule` and
+  `\Magento\Customer\Model\Indexer\AttributeProvider`
+  )
