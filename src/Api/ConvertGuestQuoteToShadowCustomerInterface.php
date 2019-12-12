@@ -10,12 +10,10 @@ use Magento\Quote\Api\Data\CartInterface;
 
 interface ConvertGuestQuoteToShadowCustomerInterface
 {
-
     /**
      * @param $quote
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return void
      */
     public function execute(CartInterface $quote);
-
 }

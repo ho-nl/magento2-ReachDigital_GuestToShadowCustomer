@@ -14,7 +14,6 @@ use Magento\Framework\Data\OptionSourceInterface;
  */
 class Options implements OptionSourceInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -23,12 +22,12 @@ class Options implements OptionSourceInterface
         return [
             [
                 'value' => 1,
-                'label' => __('Yes')
+                'label' => __('Yes'),
             ],
             [
                 'value' => 0,
-                'label' => __('No')
-            ]
+                'label' => __('No'),
+            ],
         ];
     }
 }

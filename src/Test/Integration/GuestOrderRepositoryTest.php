@@ -13,7 +13,6 @@ use ReachDigital\GuestToShadowCustomer\Api\GuestOrderRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\Helper\Bootstrap;
 
-
 class GuestOrderRepositoryTest extends TestCase
 {
     /** @var  GuestOrderRepositoryInterface */
@@ -34,7 +33,6 @@ class GuestOrderRepositoryTest extends TestCase
         $this->guestOrderRepository = $this->objectManager->create(GuestOrderRepositoryInterface::class);
         $this->searchCriteriaInterface = $this->objectManager->create(SearchCriteriaInterface::class);
     }
-
 
     /**
      * @test

@@ -30,11 +30,8 @@ class GuestOrderRepository implements GuestOrderRepositoryInterface
      * @param FilterGroup              $filterGroup
      * @param Filter                   $filter
      */
-    public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        FilterGroup $filterGroup,
-        Filter $filter
-    ) {
+    public function __construct(OrderRepositoryInterface $orderRepository, FilterGroup $filterGroup, Filter $filter)
+    {
         $this->orderRepository = $orderRepository;
         $this->filterGroup = $filterGroup;
         $this->filter = $filter;

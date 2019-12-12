@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerHasShadowFlagEavAttributeTest extends TestCase
 {
-
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
@@ -35,5 +34,4 @@ class CustomerHasShadowFlagEavAttributeTest extends TestCase
         $attributeRepository = $this->objectManager->create(AttributeRepositoryInterface::class);
         $attributeRepository->get(1, 'is_shadow');
     }
-
 }

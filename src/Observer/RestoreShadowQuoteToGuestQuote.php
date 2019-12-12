@@ -13,7 +13,6 @@ use Magento\Quote\Model\Quote;
 
 class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\ObserverInterface
 {
-
     /** @var CartRepositoryInterface */
     private $cartRepository;
 
@@ -65,7 +64,6 @@ class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\Observe
             // Check if quote customer is shadow, if so, convert quote to guest quote
             $isShadow = $customer->getCustomAttribute('is_shadow');
             if (!$this->customerSession->isLoggedIn() && $isShadow && $isShadow->getValue() == 1) {
-
                 // Must set to empty customer, else it will override customer_id field,
                 // see \Magento\Quote\Model\Quote::beforeSave
                 $quote->setCustomer($this->customerFactory->create());

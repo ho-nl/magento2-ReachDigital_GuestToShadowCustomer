@@ -7,7 +7,6 @@ namespace ReachDigital\GuestToShadowCustomer\Plugin\Block\Adminhtml\Order\View;
 
 class InfoPlugin
 {
-
     public function afterGetCustomerViewUrl(\Magento\Sales\Block\Adminhtml\Order\View\Info $subject, $result)
     {
         // ShadowCustomer sets the customerId on the order

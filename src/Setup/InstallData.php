@@ -15,7 +15,6 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 class InstallData implements \Magento\Framework\Setup\InstallDataInterface
 {
-
     /**
      * @var \Magento\Customer\Setup\CustomerSetupFactory
      */
@@ -32,28 +31,24 @@ class InstallData implements \Magento\Framework\Setup\InstallDataInterface
      * @param CustomerSetupFactory $customerSetupFactory
      * @param AttributeSetFactory  $attributeSetFactory
      */
-    public function __construct(
-        CustomerSetupFactory $customerSetupFactory,
-        AttributeSetFactory $attributeSetFactory
-    ) {
+    public function __construct(CustomerSetupFactory $customerSetupFactory, AttributeSetFactory $attributeSetFactory)
+    {
         $this->customerSetupFactory = $customerSetupFactory;
-        $this->attributeSetFactory  = $attributeSetFactory;
+        $this->attributeSetFactory = $attributeSetFactory;
     }
 
     /**
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface   $context
      */
-    public function install(
-        ModuleDataSetupInterface $setup,
-        ModuleContextInterface $context
-    ) {
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
         /** @var CustomerSetupFactory $customerSetup */
         $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
         $customerEntity = $customerSetup->getEavConfig()->getEntityType('customer');
         $attributeSetId = $customerEntity->getDefaultAttributeSetId();
         /** @var $attributeSet AttributeSet */
-        $attributeSet     = $this->attributeSetFactory->create();
+        $attributeSet = $this->attributeSetFactory->create();
         $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
         $customerSetup->addAttribute(Customer::ENTITY, 'is_shadow', [
             'type' => 'static',
@@ -69,9 +64,11 @@ class InstallData implements \Magento\Framework\Setup\InstallDataInterface
             'system' => 0,
             'backend' => \Magento\Customer\Model\Attribute\Backend\Data\Boolean::class,
             'adminhtml_only' => 1,
-            'default' => 0
+            'default' => 0,
         ]);
-        $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'is_shadow')
+        $attribute = $customerSetup
+            ->getEavConfig()
+            ->getAttribute(Customer::ENTITY, 'is_shadow')
             ->addData([
                 'attribute_set_id' => $attributeSetId,
                 'attribute_group_id' => $attributeGroupId,

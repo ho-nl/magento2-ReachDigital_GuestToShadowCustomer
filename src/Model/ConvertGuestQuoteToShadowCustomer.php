@@ -75,7 +75,6 @@ class ConvertGuestQuoteToShadowCustomer implements ConvertGuestQuoteToShadowCust
         $this->customerRepository = $customerRepository;
     }
 
-
     /**
      * @param CartInterface|Quote $quote
      *

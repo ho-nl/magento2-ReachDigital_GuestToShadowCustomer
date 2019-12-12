@@ -11,7 +11,8 @@ namespace ReachDigital\GuestToShadowCustomer\Model;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface;
 
-class QuoteRepositoryPluginAccessChangeQuoteControl extends \Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl
+class QuoteRepositoryPluginAccessChangeQuoteControl extends
+    \Magento\Quote\Model\QuoteRepository\Plugin\AccessChangeQuoteControl
 {
     /**
      * Checks if change quote's customer id is allowed for current user.

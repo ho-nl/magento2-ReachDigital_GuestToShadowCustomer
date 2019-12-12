@@ -37,7 +37,9 @@ class TransactionalEmailSenderTest extends TestCase
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
+        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
+            ConvertGuestOrderToShadowCustomerInterface::class
+        );
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
     }
 
@@ -51,7 +53,7 @@ class TransactionalEmailSenderTest extends TestCase
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $orderBefore = $this->objectManager->create(OrderInterface::class);
         $orderBefore->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute((int)$orderBefore->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $orderBefore->getId());
         $orderAfter = $this->objectManager->create(OrderInterface::class);
         $orderAfter->loadByIncrementId('100000001');
         $customer = $this->customerRepository->get('customer@null.com');
@@ -61,8 +63,8 @@ class TransactionalEmailSenderTest extends TestCase
         $result = $orderSender->send($orderAfter);
         $this->assertTrue($result);
         $this->assertNotEmpty($orderAfter->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -81,8 +83,8 @@ class TransactionalEmailSenderTest extends TestCase
         $result = $orderSender->send($order);
         $this->assertTrue($result);
         $this->assertNotEmpty($order->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -95,29 +97,26 @@ class TransactionalEmailSenderTest extends TestCase
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $orderBefore = $this->objectManager->create(OrderInterface::class);
         $orderBefore->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute((int)$orderBefore->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $orderBefore->getId());
         $orderAfter = $this->objectManager->create(OrderInterface::class);
         $orderAfter->loadByIncrementId('100000001');
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $this->assertEmpty($orderAfter->getEmailSent());
 
-        $invoice = $this->objectManager->create(
-                    InvoiceInterface::class
-                );
+        $invoice = $this->objectManager->create(InvoiceInterface::class);
         $invoice->setOrder($orderAfter);
 
         /** @var InvoiceSender $invoiceSender */
-        $invoiceSender = Bootstrap::getObjectManager()
-            ->create(InvoiceSender::class);
+        $invoiceSender = Bootstrap::getObjectManager()->create(InvoiceSender::class);
 
         $this->assertEmpty($invoice->getEmailSent());
         $result = $invoiceSender->send($invoice, true);
 
         $this->assertTrue($result);
         $this->assertNotEmpty($invoice->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -132,22 +131,19 @@ class TransactionalEmailSenderTest extends TestCase
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $invoice = $this->objectManager->create(
-                    InvoiceInterface::class
-                );
+        $invoice = $this->objectManager->create(InvoiceInterface::class);
         $invoice->setOrder($order);
 
         /** @var InvoiceSender $invoiceSender */
-        $invoiceSender = Bootstrap::getObjectManager()
-            ->create(InvoiceSender::class);
+        $invoiceSender = Bootstrap::getObjectManager()->create(InvoiceSender::class);
 
         $this->assertEmpty($invoice->getEmailSent());
         $result = $invoiceSender->send($invoice, true);
 
         $this->assertTrue($result);
         $this->assertNotEmpty($invoice->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -157,33 +153,29 @@ class TransactionalEmailSenderTest extends TestCase
      */
     public function should_send_shadow_customer_guest_shipment_template()
     {
-
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $orderBefore = $this->objectManager->create(OrderInterface::class);
         $orderBefore->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute((int)$orderBefore->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $orderBefore->getId());
         $orderAfter = $this->objectManager->create(OrderInterface::class);
         $orderAfter->loadByIncrementId('100000001');
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $this->assertEmpty($orderAfter->getEmailSent());
 
-        $shipment = Bootstrap::getObjectManager()->create(
-            \Magento\Sales\Model\Order\Shipment::class
-                );
+        $shipment = Bootstrap::getObjectManager()->create(\Magento\Sales\Model\Order\Shipment::class);
         $shipment->setOrder($orderAfter);
 
         $this->assertEmpty($shipment->getEmailSent());
 
-        $orderSender = Bootstrap::getObjectManager()
-            ->create(ShipmentSender::class);
+        $orderSender = Bootstrap::getObjectManager()->create(ShipmentSender::class);
         $result = $orderSender->send($shipment, true);
 
         $this->assertTrue($result);
 
         $this->assertNotEmpty($shipment->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -198,23 +190,19 @@ class TransactionalEmailSenderTest extends TestCase
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $shipment = Bootstrap::getObjectManager()->create(
-            \Magento\Sales\Model\Order\Shipment::class
-                );
+        $shipment = Bootstrap::getObjectManager()->create(\Magento\Sales\Model\Order\Shipment::class);
         $shipment->setOrder($order);
 
         $this->assertEmpty($shipment->getEmailSent());
 
-        $orderSender = Bootstrap::getObjectManager()
-            ->create(ShipmentSender::class);
+        $orderSender = Bootstrap::getObjectManager()->create(ShipmentSender::class);
         $result = $orderSender->send($shipment, true);
 
         $this->assertTrue($result);
 
         $this->assertNotEmpty($shipment->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
-
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -227,25 +215,22 @@ class TransactionalEmailSenderTest extends TestCase
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $orderBefore = $this->objectManager->create(OrderInterface::class);
         $orderBefore->loadByIncrementId('100000001');
-        $this->convertGuestOrderToShadowCustomer->execute((int)$orderBefore->getId());
+        $this->convertGuestOrderToShadowCustomer->execute((int) $orderBefore->getId());
         $orderAfter = $this->objectManager->create(OrderInterface::class);
         $orderAfter->loadByIncrementId('100000001');
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
         $this->assertEmpty($orderAfter->getEmailSent());
 
-        $creditmemo = Bootstrap::getObjectManager()->create(
-            CreditmemoInterface::class
-        );
+        $creditmemo = Bootstrap::getObjectManager()->create(CreditmemoInterface::class);
         $creditmemo->setOrder($orderAfter);
         $this->assertEmpty($creditmemo->getEmailSent());
-        $creditmemoSender = $this->objectManager
-            ->create(CreditmemoSender::class);
-        $result           = $creditmemoSender->send($creditmemo, true);
+        $creditmemoSender = $this->objectManager->create(CreditmemoSender::class);
+        $result = $creditmemoSender->send($creditmemo, true);
         $this->assertTrue($result);
         $this->assertNotEmpty($creditmemo->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertNotContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 
     /**
@@ -260,21 +245,17 @@ class TransactionalEmailSenderTest extends TestCase
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-
-        $creditmemo = Bootstrap::getObjectManager()->create(
-            CreditmemoInterface::class
-        );
+        $creditmemo = Bootstrap::getObjectManager()->create(CreditmemoInterface::class);
         $creditmemo->setOrder($order);
 
         $this->assertEmpty($creditmemo->getEmailSent());
 
-        $creditmemoSender = $this->objectManager
-            ->create(CreditmemoSender::class);
+        $creditmemoSender = $this->objectManager->create(CreditmemoSender::class);
         $result = $creditmemoSender->send($creditmemo, true);
 
         $this->assertTrue($result);
         $this->assertNotEmpty($creditmemo->getEmailSent());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertContains('logging into your account', $transportInterface->getMessage()->getBody()->getContent());
     }
 }

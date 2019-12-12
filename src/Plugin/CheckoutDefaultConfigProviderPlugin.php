@@ -60,15 +60,15 @@ class CheckoutDefaultConfigProviderPlugin
             $quoteData['is_virtual'] = $quote->getIsVirtual();
 
             $customAttributes = $quote->getCustomer()->getCustomAttributes();
-            if (!$quote->getCustomer()->getId()
-                || (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
+            if (
+                !$quote->getCustomer()->getId() ||
+                (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
             ) {
                 /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
                 $quoteIdMask = $this->quoteIdMaskFactory->create();
-                $quoteData['entity_id'] = $quoteIdMask->load(
-                    $this->checkoutSession->getQuote()->getId(),
-                    'quote_id'
-                )->getMaskedId();
+                $quoteData['entity_id'] = $quoteIdMask
+                    ->load($this->checkoutSession->getQuote()->getId(), 'quote_id')
+                    ->getMaskedId();
             }
         }
         return $quoteData;

@@ -41,7 +41,7 @@ class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($customer);
         $this->assertNotEmpty($order);
     }
-    
+
     public static function getQuoteWithProductAndCustomerToOrderDataFixture()
     {
         include __DIR__ . '/_files/quote_with_product_and_customer_to_order.php';

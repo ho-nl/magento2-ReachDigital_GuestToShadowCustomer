@@ -25,10 +25,8 @@ class AccountManagementPlugin
      */
     private $customerRepository;
 
-    public function __construct(
-        StoreManagerInterface $storeManager,
-        CustomerRepositoryInterface $customerRepository
-    ) {
+    public function __construct(StoreManagerInterface $storeManager, CustomerRepositoryInterface $customerRepository)
+    {
         $this->storeManager = $storeManager;
         $this->customerRepository = $customerRepository;
     }
@@ -47,7 +45,7 @@ class AccountManagementPlugin
         callable $proceed,
         $customerEmail,
         $websiteId = null
-    ) : bool {
+    ): bool {
         try {
             if ($websiteId === null) {
                 $websiteId = $this->storeManager->getStore()->getWebsiteId();

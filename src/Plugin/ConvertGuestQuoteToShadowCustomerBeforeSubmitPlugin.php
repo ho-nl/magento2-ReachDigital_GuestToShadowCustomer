@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * Copyright (c) 2018 Reach Digital, http://www.reachdigital.nl
  * See LICENSE.txt for license details.
  */
@@ -17,7 +17,6 @@ class ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin
     {
         $this->convertGuestQuoteToShadowCustomer = $convertGuestQuoteToShadowCustomer;
     }
-
 
     /**
      * Since a customer is necessary to create a billing agreement
