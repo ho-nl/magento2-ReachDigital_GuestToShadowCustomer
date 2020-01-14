@@ -12,6 +12,7 @@ use Magento\Checkout\Model\DefaultConfigProvider;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\QuoteIdMaskFactory;
+use Magento\Customer\Model\Session as CustomerSession;
 
 class CheckoutDefaultConfigProviderPlugin
 {
@@ -30,14 +31,21 @@ class CheckoutDefaultConfigProviderPlugin
      */
     private $quoteIdMaskFactory;
 
+    /**
+     * @var CustomerSession
+     */
+    private $customerSession;
+
     public function __construct(
         CheckoutSession $session,
         CartRepositoryInterface $quoteRepository,
-        QuoteIdMaskFactory $quoteIdMaskFactory
+        QuoteIdMaskFactory $quoteIdMaskFactory,
+        CustomerSession $customerSession
     ) {
         $this->checkoutSession = $session;
         $this->quoteRepository = $quoteRepository;
         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+        $this->customerSession = $customerSession;
     }
 
     public function afterGetConfig(DefaultConfigProvider $subject, $result)
@@ -62,6 +70,7 @@ class CheckoutDefaultConfigProviderPlugin
             $customAttributes = $quote->getCustomer()->getCustomAttributes();
             if (
                 !$quote->getCustomer()->getId() ||
+                !$this->customerSession->isLoggedIn() ||
                 (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
             ) {
                 /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
