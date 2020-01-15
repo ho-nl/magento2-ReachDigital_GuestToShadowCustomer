@@ -60,21 +60,29 @@ class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\Observe
         }
         try {
             $customer = $this->customerRepository->get($quote->getCustomerEmail());
-
-            // Check if quote customer is shadow, if so, convert quote to guest quote
-            $isShadow = $customer->getCustomAttribute('is_shadow');
-            if (!$this->customerSession->isLoggedIn() && $isShadow && $isShadow->getValue() == 1) {
-                // Must set to empty customer, else it will override customer_id field,
-                // see \Magento\Quote\Model\Quote::beforeSave
-                $quote->setCustomer($this->customerFactory->create());
-
-                $quote->setCustomerId(0);
-                $quote->setCustomerIsGuest(true);
-
-                $this->cartRepository->save($quote);
-            }
         } catch (NoSuchEntityException $e) {
             return;
+        }
+
+        // Check if quote customer is shadow, if so, convert quote to guest quote
+        $isShadow = $customer->getCustomAttribute('is_shadow');
+        if (!$this->customerSession->isLoggedIn() && $isShadow && $isShadow->getValue() == 1) {
+
+            // Must set to empty customer, else it will override customer_id field,
+            // see \Magento\Quote\Model\Quote::beforeSave
+            $quote->setCustomer($this->customerFactory->create());
+            $quote->setCustomerId(0);
+            $quote->setCustomerIsGuest(true);
+
+            /**
+             * Ensure address validation doesn't fail when saving quote
+             * @see \Magento\Quote\Model\Quote\Address\BillingAddressPersister::save
+             * @see \Magento\Quote\Model\QuoteAddressValidator::doValidate
+             */
+            if ($quote->getBillingAddress()) {
+                $quote->getBillingAddress()->setCustomerAddressId(null);
+            }
+            $this->cartRepository->save($quote);
         }
     }
 }
