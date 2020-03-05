@@ -3,6 +3,7 @@
   ~ Copyright © Reach Digital (https://www.reachdigital.io/)
   ~ See LICENSE.txt for license details.
   -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 	<system>
 		<tab id="reach_digital_config" translate="label" sortOrder="110">
@@ -12,9 +13,19 @@
 			<label>Guest To Shadow Customer</label>
 			<tab>reach_digital_config</tab>
 			<resource>ReachDigital_GuestToShadowCustomer::config</resource>
-			<group id="cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+
+			<group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+				<label>General</label>
+
+				<field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+					<label>Enable module</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="cron" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
 				<label>Cron</label>
-				<field id="job_schedule" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+
+				<field id="job_schedule" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
 					<label>Job Schedule</label>
 					<validate>cron-expression</validate>
 					<comment><![CDATA[Example: */15 * * * *]]></comment>
