@@ -148,6 +148,9 @@ class AccountManagementInterfaceApiAroundPlugin
                 }
                 try {
                     foreach ($customerAddresses as $address) {
+                        if(!$this->meetsMinimumRequirements($address)){
+                            continue;
+                        }
                         if ($address->getId()) {
                             $newAddress = clone $address;
                             $newAddress->setId(null);
@@ -245,5 +248,25 @@ class AccountManagementInterfaceApiAroundPlugin
             return $customer;
         }
         return $proceed($customer, $hash, $redirectUrl);
+    }
+
+
+    /**
+     * Core magento will throw an error if you try to save an address without these requirements
+     * @param $address
+     *
+     * @return bool
+     */
+    private function meetsMinimumRequirements($address)
+    {
+        $test = null;
+        return
+        (
+            $address->getFirstname() !== null &&
+            $address->getLastname() !== null &&
+            $address->getCity() !== null &&
+            $address->getTelephone() !== null &&
+            $address->getPostcode() !== null
+        );
     }
 }
