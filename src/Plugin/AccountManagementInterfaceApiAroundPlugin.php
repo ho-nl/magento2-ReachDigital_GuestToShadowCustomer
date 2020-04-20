@@ -259,7 +259,6 @@ class AccountManagementInterfaceApiAroundPlugin
      */
     private function meetsMinimumRequirements($address)
     {
-        $test = null;
         return
         (
             $address->getFirstname() !== null &&
