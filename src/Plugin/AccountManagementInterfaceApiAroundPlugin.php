@@ -115,7 +115,10 @@ class AccountManagementInterfaceApiAroundPlugin
                 // Make sure we have a storeId to associate this customer with.
                 if (!$customer->getStoreId()) {
                     if ($customer->getWebsiteId()) {
-                        $storeId = $this->storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+                        $storeId = $this->storeManager
+                            ->getWebsite($customer->getWebsiteId())
+                            ->getDefaultStore()
+                            ->getId();
                     } else {
                         $storeId = $this->storeManager->getStore()->getId();
                     }
@@ -184,7 +187,10 @@ class AccountManagementInterfaceApiAroundPlugin
             // Make sure we have a storeId to associate this customer with.
             if (!$customer->getStoreId()) {
                 if ($customer->getWebsiteId()) {
-                    $storeId = $this->storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+                    $storeId = $this->storeManager
+                        ->getWebsite($customer->getWebsiteId())
+                        ->getDefaultStore()
+                        ->getId();
                 } else {
                     $storeId = $this->storeManager->getStore()->getId();
                 }
@@ -204,7 +210,13 @@ class AccountManagementInterfaceApiAroundPlugin
             $customerAddresses = $customer->getAddresses() ?: [];
             $customer->setAddresses(null);
 
-            if ($this->accountConfirmation->isConfirmationRequired($websiteId, $customer->getId(), $customer->getEmail())) {
+            if (
+                $this->accountConfirmation->isConfirmationRequired(
+                    $websiteId,
+                    $customer->getId(),
+                    $customer->getEmail()
+                )
+            ) {
                 $customer->setConfirmation(1);
             }
 
@@ -232,7 +244,13 @@ class AccountManagementInterfaceApiAroundPlugin
             $newLinkToken = $this->mathRandom->getUniqueHash();
             $accountManagement->changeResetPasswordLinkToken($customer, $newLinkToken);
 
-            if ($this->accountConfirmation->isConfirmationRequired($websiteId, $customer->getId(), $customer->getEmail())) {
+            if (
+                $this->accountConfirmation->isConfirmationRequired(
+                    $websiteId,
+                    $customer->getId(),
+                    $customer->getEmail()
+                )
+            ) {
                 $accountManagement->resendConfirmation($customer->getEmail(), $websiteId, $redirectUrl);
             }
 

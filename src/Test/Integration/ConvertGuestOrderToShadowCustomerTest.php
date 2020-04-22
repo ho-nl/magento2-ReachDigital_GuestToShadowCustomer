@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace ReachDigital\GuestToShadowCustomer\Test\Integration;
 
-
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\Data\CustomerInterfaceFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -22,7 +21,6 @@ use ReachDigital\GuestToShadowCustomer\Exception\OrderAlreadyAssignedToShadowCus
 use PHPUnit\Framework\TestCase;
 class ConvertGuestOrderToShadowCustomerTest extends TestCase
 {
-
     /**
      * @var \ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInterface
      */
@@ -48,7 +46,9 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
+        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
+            ConvertGuestOrderToShadowCustomerInterface::class
+        );
         $this->customerRegistry = $this->objectManager->create(CustomerRegistry::class);
         $this->customerFactory = $this->objectManager->create(CustomerInterfaceFactory::class);
         $this->accountManagement = $this->objectManager->create(AccountManagementInterface::class);
@@ -74,20 +74,21 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function should_assign_guest_order_to_existing_customer_by_email()
     {
-        $email     = 'customer@null.com';
-        $storeId   = 1;
-        $websiteId   = 1;
+        $email = 'customer@null.com';
+        $storeId = 1;
+        $websiteId = 1;
         $firstname = 'Tester';
-        $lastname  = 'McTest';
-        $groupId   = 1;
-        $newCustomerEntity = $this->customerFactory->create()
+        $lastname = 'McTest';
+        $groupId = 1;
+        $newCustomerEntity = $this->customerFactory
+            ->create()
             ->setStoreId($storeId)
             ->setWebsiteId($websiteId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setGroupId($groupId);
-        $savedCustomer     = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
+        $savedCustomer = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
         $this->assertNotNull($savedCustomer->getId());
         $order = $this->objectManager->create(OrderInterface::class);
         $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
@@ -116,7 +117,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $this->assertEquals('customer@null.com', $customer->getEmail());
     }
 
-
     /**
      * @test
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
@@ -128,7 +128,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $this->expectException(OrderAlreadyAssignedToCustomerException::class);
         $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
     }
-
 
     /**
      * @test
@@ -149,28 +148,20 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
      */
     public function should_get_customer_without_password_hash()
     {
-        $order              = $this->objectManager->create(
-            OrderInterface::class
-        );
-        $customerRepository = $this->objectManager->create(
-            CustomerRepositoryInterface::class
-        );
+        $order = $this->objectManager->create(OrderInterface::class);
+        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $order->loadByIncrementId('100000001');
         $this->convertGuestOrderToShadowCustomer->execute((int) $order->getId());
         $customer = $customerRepository->get('customer@null.com');
         $this->assertNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }
 
-
     /**
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
      */
     public function should_get_customer_with_password_hash()
     {
-
-        $customerRepository = $this->objectManager->create(
-            CustomerRepositoryInterface::class
-        );
+        $customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $customer = $customerRepository->get('customer@example.com');
         $this->assertNotNull($this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash());
     }

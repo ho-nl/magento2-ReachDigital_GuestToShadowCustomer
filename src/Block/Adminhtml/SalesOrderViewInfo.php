@@ -15,7 +15,6 @@ use Magento\Sales\Api\Data\OrderInterface;
 
 class SalesOrderViewInfo extends Template
 {
-
     /**
      * Core registry
      *
@@ -58,8 +57,12 @@ class SalesOrderViewInfo extends Template
      * @param Template\Context            $context
      * @param array                       $data
      */
-    public function __construct(Registry $registry, CustomerRepositoryInterface $customerRepository,\Magento\Backend\Block\Template\Context $context, array $data = [])
-    {
+    public function __construct(
+        Registry $registry,
+        CustomerRepositoryInterface $customerRepository,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = []
+    ) {
         $this->customerRepository = $customerRepository;
         $this->_coreRegistry = $registry;
         $this->_localeDate = $context->getLocaleDate();
@@ -98,7 +101,7 @@ class SalesOrderViewInfo extends Template
     {
         try {
             $customer = $this->customerRepository->getById($this->getOrder()->getCustomerId());
-        } catch (NoSuchEntityException $exception){
+        } catch (NoSuchEntityException $exception) {
             return __('No');
         } catch (LocalizedException $exception) {
             return false;

@@ -40,7 +40,6 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /** @var  SearchCriteria */
     private $searchCriteria;
 
-
     /** @var  CustomerRepositoryInterface */
     private $customerRepository;
 
@@ -54,14 +53,15 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestOrderToShadowCustomerCron = $this->objectManager->create(ConvertGuestOrderToShadowCustomerCron::class);
+        $this->convertGuestOrderToShadowCustomerCron = $this->objectManager->create(
+            ConvertGuestOrderToShadowCustomerCron::class
+        );
         $this->guestOrderRepository = $this->objectManager->create(GuestOrderRepositoryInterface::class);
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
         $this->searchCriteria = $this->objectManager->create(SearchCriteriaInterface::class);
         $this->orderRepository = $this->objectManager->create(OrderRepositoryInterface::class);
         $this->scopeConfig = Bootstrap::getObjectManager()->create(ScopeConfigInterface::class);
     }
-
 
     /**
      * @test
@@ -85,6 +85,8 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
      */
     public function should_return_false_cron_expression_value()
     {
-        $this->assertNull($this->scopeConfig->getValue(self::XML_PATH_GUEST_TO_SHADOW_CUSTOMER_CRON_JOB_SCHEDULE_EXPRESSION));
+        $this->assertNull(
+            $this->scopeConfig->getValue(self::XML_PATH_GUEST_TO_SHADOW_CUSTOMER_CRON_JOB_SCHEDULE_EXPRESSION)
+        );
     }
 }

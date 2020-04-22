@@ -11,7 +11,6 @@ use Magento\Ui\Component\Listing\Columns\Column;
 
 class IsShadow extends Column
 {
-
     /**
      * {@inheritdoc}
      */
@@ -19,8 +18,8 @@ class IsShadow extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
-                $name        = $this->getData('name');
-                $item[$name] = ($item[$name] ? __('Yes') : __('No'));
+                $name = $this->getData('name');
+                $item[$name] = $item[$name] ? __('Yes') : __('No');
             }
         }
         return $dataSource;

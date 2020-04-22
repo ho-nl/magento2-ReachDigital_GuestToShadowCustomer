@@ -16,7 +16,6 @@ use ReachDigital\GuestToShadowCustomer\Api\ConvertGuestOrderToShadowCustomerInte
 
 class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
 {
-
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
@@ -51,7 +50,9 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     {
         parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(ConvertGuestOrderToShadowCustomerInterface::class);
+        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
+            ConvertGuestOrderToShadowCustomerInterface::class
+        );
         $this->accountManagement = $this->objectManager->create(AccountManagementInterface::class);
         $this->customerFactory = $this->objectManager->create(CustomerInterfaceFactory::class);
         $this->order = $this->objectManager->create(OrderInterface::class);
@@ -69,10 +70,10 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $customer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $customer->getEmail());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $body = $transportInterface->getMessage()->getBody();
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $body = $transportInterface->getMessage()->getBody();
         // Depending on the implementation of TransportInterface either false or null is returned.
-//        $this->assertTrue($body === false || $body === null);
+        //        $this->assertTrue($body === false || $body === null);
     }
 
     /**
@@ -85,13 +86,14 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $shadowCustomer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
-        $email     = 'customer@null.com';
-        $storeId   = 1;
-        $websiteId   = 1;
+        $email = 'customer@null.com';
+        $storeId = 1;
+        $websiteId = 1;
         $firstname = 'Tester';
-        $lastname  = 'McTest';
-        $groupId   = 1;
-        $newCustomerEntity = $this->customerFactory->create()
+        $lastname = 'McTest';
+        $groupId = 1;
+        $newCustomerEntity = $this->customerFactory
+            ->create()
             ->setStoreId($storeId)
             ->setWebsiteId($websiteId)
             ->setEmail($email)
@@ -120,20 +122,21 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->convertGuestOrderToShadowCustomer->execute((int) $this->order->getId());
         $shadowCustomer = $this->customerRepository->get('customer@null.com');
         $this->assertEquals('customer@null.com', $shadowCustomer->getEmail());
-        $email     = 'customer@null.com';
-        $storeId   = 1;
-        $websiteId   = 1;
+        $email = 'customer@null.com';
+        $storeId = 1;
+        $websiteId = 1;
         $firstname = 'Tester';
-        $lastname  = 'McTest';
-        $groupId   = 1;
-        $newCustomerEntity = $this->customerFactory->create()
+        $lastname = 'McTest';
+        $groupId = 1;
+        $newCustomerEntity = $this->customerFactory
+            ->create()
             ->setStoreId($storeId)
             ->setWebsiteId($websiteId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setGroupId($groupId);
-        $savedCustomer     = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
+        $savedCustomer = $this->accountManagement->createAccount($newCustomerEntity, '_aPassword1');
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
@@ -142,7 +145,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
         $this->assertTrue(!$savedCustomer->getSuffix());
-//        $transportInterface = $this->objectManager->get(TransportInterface::class);
-//        $this->assertNotFalse($transportInterface->getMessage()->getBody());
+        //        $transportInterface = $this->objectManager->get(TransportInterface::class);
+        //        $this->assertNotFalse($transportInterface->getMessage()->getBody());
     }
 }

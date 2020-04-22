@@ -12,7 +12,6 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 
 class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
 {
-
     /**
      *
      *
@@ -22,24 +21,15 @@ class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function upgrade(
-        SchemaSetupInterface $setup,
-        ModuleContextInterface $context
-    )
+    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $installer = $setup;
         $installer->startSetup();
         $connection = $installer->getConnection();
 
         if (version_compare($context->getVersion(), '1.0.1', '<')) {
-            $connection->addColumn($setup->getTable('customer_entity'),
-                'is_shadow',
-                Table::TYPE_SMALLINT,
-                null);
-            $connection->addColumn($setup->getTable('sales_order_grid'),
-                'is_shadow',
-                Table::TYPE_SMALLINT,
-                null);
+            $connection->addColumn($setup->getTable('customer_entity'), 'is_shadow', Table::TYPE_SMALLINT, null);
+            $connection->addColumn($setup->getTable('sales_order_grid'), 'is_shadow', Table::TYPE_SMALLINT, null);
         }
         $installer->endSetup();
     }

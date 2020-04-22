@@ -18,9 +18,7 @@ class PreserveIsShadowWhenSavingCustomer
     /** @var CustomerRepository */
     private $customerRepository;
 
-    public function __construct(
-        CustomerRepositoryInterface $customerRepository
-    )
+    public function __construct(CustomerRepositoryInterface $customerRepository)
     {
         $this->customerRepository = $customerRepository;
     }
@@ -39,8 +37,7 @@ class PreserveIsShadowWhenSavingCustomer
         CustomerRepository $subject,
         CustomerInterface $customer,
         $passwordHash = null
-    ) : array
-    {
+    ): array {
         try {
             $loadedCustomer = $this->customerRepository->getById($customer->getId());
 
@@ -50,6 +47,6 @@ class PreserveIsShadowWhenSavingCustomer
         } catch (NoSuchEntityException $e) {
         } catch (LocalizedException $e) {
         }
-        return [ $customer, $passwordHash ];
+        return [$customer, $passwordHash];
     }
 }
