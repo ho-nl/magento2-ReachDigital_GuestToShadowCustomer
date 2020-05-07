@@ -110,6 +110,7 @@ class AccountManagementInterfaceApiAroundPlugin
                     $customer->setId($existingCustomer->getId());
                     $customer->setDefaultShipping($existingCustomer->getDefaultShipping());
                     $customer->setDefaultBilling($existingCustomer->getDefaultBilling());
+                    $customer->setGroupId($existingCustomer->getGroupId());
                 }
             } catch (NoSuchEntityException $e) {
                 // Make sure we have a storeId to associate this customer with.
