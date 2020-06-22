@@ -59,10 +59,15 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
     }
 
+    public static function createOrder(): void
+    {
+        include __DIR__ . '/_files/order.php';
+    }
+
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_create_shadow_customer_with_no_email_notification()
     {
@@ -78,7 +83,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_be_able_to_register_as_customer_for_a_shadow_customer()
     {
@@ -114,7 +119,7 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_send_welcome_email_when_shadow_customer_is_converted_to_customer()
     {

@@ -63,10 +63,15 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
         $this->scopeConfig = Bootstrap::getObjectManager()->create(ScopeConfigInterface::class);
     }
 
+    public static function createOrder(): void
+    {
+        include __DIR__ . '/_files/order.php';
+    }
+
     /**
      * @test
      * NOTE: order_list.php fixture is not being used because the orders are not fetched with OrderRepositoryInterface
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_process_guest_order_to_shadow_customer_via_cron()
     {

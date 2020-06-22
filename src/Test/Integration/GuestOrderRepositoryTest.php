@@ -34,9 +34,19 @@ class GuestOrderRepositoryTest extends TestCase
         $this->searchCriteriaInterface = $this->objectManager->create(SearchCriteriaInterface::class);
     }
 
+    public static function createOrder(): void
+    {
+        include __DIR__ . '/_files/order.php';
+    }
+
+    public static function createOrderWithCustomer(): void
+    {
+        include __DIR__ . '/_files/order_with_customer.php';
+    }
+
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_return_guest_order()
     {
@@ -45,7 +55,7 @@ class GuestOrderRepositoryTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_not_return_guest_order()
     {

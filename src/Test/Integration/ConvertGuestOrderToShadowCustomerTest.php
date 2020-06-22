@@ -54,9 +54,20 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
         $this->accountManagement = $this->objectManager->create(AccountManagementInterface::class);
     }
 
+    public static function createOrder(): void
+    {
+        include __DIR__ . '/_files/order.php';
+    }
+
+    public static function createOrderWithCustomer(): void
+    {
+        include __DIR__ . '/_files/order_with_customer.php';
+    }
+
+
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_convert_guest_order_to_shadow_customer()
     {
@@ -70,7 +81,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_assign_guest_order_to_existing_customer_by_email()
     {
@@ -103,7 +114,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_get_no_such_customer_entity_exception()
     {
@@ -119,7 +130,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_get_order_already_assigned_to_customer_exception()
     {
@@ -131,7 +142,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_get_order_already_assigned_to_shadow_customer_exception()
     {
@@ -144,7 +155,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
 
     /**
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_get_customer_without_password_hash()
     {
@@ -157,7 +168,7 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_get_customer_with_password_hash()
     {

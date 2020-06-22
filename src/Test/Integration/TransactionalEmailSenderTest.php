@@ -43,10 +43,20 @@ class TransactionalEmailSenderTest extends TestCase
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
     }
 
+    public static function createOrder(): void
+    {
+        include __DIR__ . '/_files/order.php';
+    }
+
+    public static function createOrderWithCustomer(): void
+    {
+        include __DIR__ . '/_files/order_with_customer.php';
+    }
+
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_send_shadow_customer_guest_order_template()
     {
@@ -70,7 +80,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_send_customer_order_template()
     {
@@ -90,7 +100,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_send_shadow_customer_guest_invoice_template()
     {
@@ -122,7 +132,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_send_customer_invoice_template()
     {
@@ -149,7 +159,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_send_shadow_customer_guest_shipment_template()
     {
@@ -181,7 +191,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_send_customer_shipment_template()
     {
@@ -208,7 +218,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture createOrder
      */
     public function should_send_shadow_customer_guest_creditmemo_template()
     {
@@ -236,7 +246,7 @@ class TransactionalEmailSenderTest extends TestCase
     /**
      * @todo Fix retrieving TransportInterface
      * @test
-     * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
+     * @magentoDataFixture createOrderWithCustomer
      */
     public function should_send_customer_creditmemo_template()
     {
