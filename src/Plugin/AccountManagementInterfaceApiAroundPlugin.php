@@ -110,6 +110,7 @@ class AccountManagementInterfaceApiAroundPlugin
                     $customer->setId($existingCustomer->getId());
                     $customer->setDefaultShipping($existingCustomer->getDefaultShipping());
                     $customer->setDefaultBilling($existingCustomer->getDefaultBilling());
+                    $customer->setGroupId($existingCustomer->getGroupId());
                 }
             } catch (NoSuchEntityException $e) {
                 // Make sure we have a storeId to associate this customer with.
@@ -151,6 +152,9 @@ class AccountManagementInterfaceApiAroundPlugin
                 }
                 try {
                     foreach ($customerAddresses as $address) {
+                        if(!$this->meetsMinimumRequirements($address)){
+                            continue;
+                        }
                         if ($address->getId()) {
                             $newAddress = clone $address;
                             $newAddress->setId(null);
@@ -263,5 +267,24 @@ class AccountManagementInterfaceApiAroundPlugin
             return $customer;
         }
         return $proceed($customer, $hash, $redirectUrl);
+    }
+
+
+    /**
+     * Core magento will throw an error if you try to save an address without these requirements
+     * @param $address
+     *
+     * @return bool
+     */
+    private function meetsMinimumRequirements($address)
+    {
+        return
+        (
+            $address->getFirstname() !== null &&
+            $address->getLastname() !== null &&
+            $address->getCity() !== null &&
+            $address->getTelephone() !== null &&
+            $address->getPostcode() !== null
+        );
     }
 }
