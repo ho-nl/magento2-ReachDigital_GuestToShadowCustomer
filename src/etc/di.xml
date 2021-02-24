@@ -30,6 +30,8 @@
     <type name="Magento\Customer\Model\AccountManagement">
         <plugin name="reachDigitalGuestToShadowCustomerAccountManagement"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\AccountManagementPlugin"/>
+        <plugin name="reachDigitalGuestToShadowCustomerDisallowPasswordResetForShadowCustomers"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\DisallowPasswordResetForShadowCustomers"/>
     </type>
 
     <type name="Magento\Customer\Api\CustomerRepositoryInterface">
