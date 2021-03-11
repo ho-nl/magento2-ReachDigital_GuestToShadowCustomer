@@ -19,7 +19,7 @@ class QuoteRepositoryPluginAccessChangeQuoteControl extends
      *
      * @inheritdoc
      */
-    public function beforeSave(CartRepositoryInterface $subject, CartInterface $quote)
+    public function beforeSave(CartRepositoryInterface $subject, CartInterface $quote): void
     {
     }
 }
