@@ -19,9 +19,8 @@ class CustomerHasShadowFlagEavAttributeTest extends TestCase
      */
     private $objectManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
     }
 

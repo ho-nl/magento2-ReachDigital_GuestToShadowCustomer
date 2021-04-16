@@ -29,12 +29,13 @@ class ConvertGuestQuoteToShadowCustomerTest extends \PHPUnit\Framework\TestCase
      */
     private $cartRepository;
 
-    protected function setup()
+    protected function setup(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestQuoteToShadowCustomer = $this->objectManager->create(ConvertGuestQuoteToShadowCustomer::class);
-        $this->cartRepository= $this->objectManager->create(CartRepositoryInterface::class);
+        $this->convertGuestQuoteToShadowCustomer = $this->objectManager->create(
+            ConvertGuestQuoteToShadowCustomer::class
+        );
+        $this->cartRepository = $this->objectManager->create(CartRepositoryInterface::class);
     }
 
     /**

@@ -33,9 +33,8 @@ class TransactionalEmailSenderTest extends TestCase
     /** @var  CustomerRepositoryInterface */
     private $customerRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
             ConvertGuestOrderToShadowCustomerInterface::class

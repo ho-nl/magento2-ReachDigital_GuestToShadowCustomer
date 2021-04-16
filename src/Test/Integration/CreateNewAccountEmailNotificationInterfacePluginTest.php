@@ -46,9 +46,8 @@ class CreateNewAccountEmailNotificationInterfacePluginTest extends TestCase
      */
     private $customerRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
             ConvertGuestOrderToShadowCustomerInterface::class

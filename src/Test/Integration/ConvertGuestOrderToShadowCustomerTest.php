@@ -42,9 +42,8 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     /** @var AccountManagementInterface */
     private $accountManagement;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
             ConvertGuestOrderToShadowCustomerInterface::class
@@ -63,7 +62,6 @@ class ConvertGuestOrderToShadowCustomerTest extends TestCase
     {
         include __DIR__ . '/_files/order_with_customer.php';
     }
-
 
     /**
      * @test

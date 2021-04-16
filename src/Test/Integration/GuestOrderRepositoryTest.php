@@ -26,9 +26,8 @@ class GuestOrderRepositoryTest extends TestCase
     /** @var  SearchCriteriaInterface */
     private $searchCriteriaInterface;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->guestOrderRepository = $this->objectManager->create(GuestOrderRepositoryInterface::class);
         $this->searchCriteriaInterface = $this->objectManager->create(SearchCriteriaInterface::class);

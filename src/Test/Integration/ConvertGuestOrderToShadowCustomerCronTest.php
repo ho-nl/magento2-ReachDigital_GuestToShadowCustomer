@@ -49,9 +49,8 @@ class ConvertGuestOrderToShadowCustomerCronTest extends TestCase
     /** @var ScopeConfigInterface */
     private $scopeConfig;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->convertGuestOrderToShadowCustomerCron = $this->objectManager->create(
             ConvertGuestOrderToShadowCustomerCron::class
