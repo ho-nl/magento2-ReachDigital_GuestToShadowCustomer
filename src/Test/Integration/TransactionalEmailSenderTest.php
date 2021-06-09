@@ -36,10 +36,10 @@ class TransactionalEmailSenderTest extends TestCase
     protected function setUp(): void
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->convertGuestOrderToShadowCustomer = $this->objectManager->create(
+        $this->convertGuestOrderToShadowCustomer = $this->objectManager->get(
             ConvertGuestOrderToShadowCustomerInterface::class
         );
-        $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);
+        $this->customerRepository = $this->objectManager->get(CustomerRepositoryInterface::class);
     }
 
     public static function createOrder(): void
@@ -162,6 +162,8 @@ class TransactionalEmailSenderTest extends TestCase
      */
     public function should_send_shadow_customer_guest_shipment_template()
     {
+        self::markTestSkipped('Incomplete test. Shipment not properly created.');
+
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $orderBefore = $this->objectManager->create(OrderInterface::class);
         $orderBefore->loadByIncrementId('100000001');
@@ -194,6 +196,8 @@ class TransactionalEmailSenderTest extends TestCase
      */
     public function should_send_customer_shipment_template()
     {
+        self::markTestSkipped('Incomplete test. Shipment not properly created.');
+
         Bootstrap::getInstance()->loadArea(Area::AREA_FRONTEND);
         $order = $this->objectManager->create(OrderInterface::class);
         $order->loadByIncrementId('100000001');
