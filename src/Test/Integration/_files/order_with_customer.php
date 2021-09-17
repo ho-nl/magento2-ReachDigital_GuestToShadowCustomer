@@ -1,12 +1,11 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright © Reach Digital (https://www.reachdigital.io/)
+ * See LICENSE.txt for license details.
  */
 
 include __DIR__ . '/order.php';
 include __DIR__ . '/../../../../../../../dev/tests/integration/testsuite/Magento/Customer/_files/customer.php';
 
-$customerIdFromFixture = 1;
 /** @var $order \Magento\Sales\Model\Order */
-$order->setCustomerId($customerIdFromFixture)->setCustomerIsGuest(false)->save();
+$order->setCustomerId(1)->setCustomerIsGuest(false)->save();
