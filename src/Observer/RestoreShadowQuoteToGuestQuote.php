@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Reach Digital (https://www.reachdigital.io/)
+ * See LICENSE.txt for license details.
+ */
 declare(strict_types=1);
 
 namespace ReachDigital\GuestToShadowCustomer\Observer;
@@ -22,11 +26,15 @@ class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\Observe
     /** @var CustomerSession */
     private $customerSession;
 
-    /**
-     * @var CustomerInterfaceFactory
-     */
+    /** @var CustomerInterfaceFactory $customerFactory */
     private $customerFactory;
 
+    /**
+     * @param CartRepositoryInterface $cartRepository
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param CustomerSession $customerSession
+     * @param CustomerInterfaceFactory $customerFactory
+     */
     public function __construct(
         CartRepositoryInterface $cartRepository,
         CustomerRepositoryInterface $customerRepository,
@@ -64,9 +72,7 @@ class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\Observe
             return;
         }
 
-        // Check if quote customer is shadow, if so, convert quote to guest quote
-        $isShadow = $customer->getCustomAttribute('is_shadow');
-        if (!$this->customerSession->isLoggedIn() && $isShadow && $isShadow->getValue() == 1) {
+        if ($this->customerSession->isLoggedIn() === false) {
 
             // Must set to empty customer, else it will override customer_id field,
             // see \Magento\Quote\Model\Quote::beforeSave
