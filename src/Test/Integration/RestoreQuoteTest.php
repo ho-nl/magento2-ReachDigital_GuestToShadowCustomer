@@ -30,9 +30,14 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
         $this->customerRepository = $objectManager->create(\Magento\Customer\Api\CustomerRepositoryInterface::class);
     }
 
+    public static function createCustomerOrderWithSimpleProduct(): void
+    {
+        include __DIR__ . '/_files/customer_order_with_simple_product.php';
+    }
+
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/customer_order_with_simple_product.php
+     * @magentoDataFixture createCustomerOrderWithSimpleProduct
      */
     public function testLoggedInCustomer()
     {
@@ -42,7 +47,7 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(1, (int) $quote->getCustomerId());
         self::assertFalse($quote->getCustomerIsGuest());
-        self::assertSame(1, $quote->getBillingAddress()->getCustomerAddressId());
+        self::assertSame(1, (int) $quote->getBillingAddress()->getCustomerAddressId());
     }
 
     /**
@@ -61,7 +66,7 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/customer_order_with_simple_product.php
+     * @magentoDataFixture createCustomerOrderWithSimpleProduct
      */
     public function testGuestWithAccount()
     {
