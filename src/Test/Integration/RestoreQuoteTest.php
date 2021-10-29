@@ -46,7 +46,7 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
         $quote = $this->checkoutSession->getQuote();
 
         self::assertSame(1, (int) $quote->getCustomerId());
-        self::assertFalse($quote->getCustomerIsGuest());
+        self::assertFalse((bool) $quote->getCustomerIsGuest());
         self::assertSame(1, (int) $quote->getBillingAddress()->getCustomerAddressId());
     }
 
@@ -59,7 +59,7 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
         $this->checkoutSession->restoreQuote();
         $quote = $this->checkoutSession->getQuote();
 
-        self::assertSame(0, $quote->getCustomerId());
+        self::assertSame(0, (int) $quote->getCustomerId());
         self::assertTrue($quote->getCustomerIsGuest());
         self::assertNull($quote->getBillingAddress()->getCustomerAddressId());
     }
@@ -73,7 +73,7 @@ class RestoreQuoteTest extends \PHPUnit\Framework\TestCase
         $this->checkoutSession->restoreQuote();
         $quote = $this->checkoutSession->getQuote();
 
-        self::assertSame(0, $quote->getCustomerId());
+        self::assertSame(0, (int) $quote->getCustomerId());
         self::assertTrue($quote->getCustomerIsGuest());
         self::assertNull($quote->getBillingAddress()->getCustomerAddressId());
     }
