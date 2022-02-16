@@ -78,6 +78,7 @@ class RestoreShadowQuoteToGuestQuote implements \Magento\Framework\Event\Observe
             // see \Magento\Quote\Model\Quote::beforeSave
             $quote->setCustomer($this->customerFactory->create());
             $quote->setCustomerId(0);
+            $quote->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID);
             $quote->setCustomerIsGuest(true);
 
             /**
