@@ -10,7 +10,9 @@ namespace ReachDigital\GuestToShadowCustomer\Plugin;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\AccountManagement;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class AccountManagementPlugin
@@ -24,11 +26,13 @@ class AccountManagementPlugin
      * @var CustomerRepositoryInterface
      */
     private $customerRepository;
+    private ScopeConfigInterface $scopeConfig;
 
-    public function __construct(StoreManagerInterface $storeManager, CustomerRepositoryInterface $customerRepository)
+    public function __construct(StoreManagerInterface $storeManager, CustomerRepositoryInterface $customerRepository, ScopeConfigInterface $scopeConfig)
     {
         $this->storeManager = $storeManager;
         $this->customerRepository = $customerRepository;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -47,6 +51,16 @@ class AccountManagementPlugin
         $websiteId = null
     ): bool {
         try {
+            $guestLoginConfig = $this->scopeConfig->getValue(
+                AccountManagement::GUEST_CHECKOUT_LOGIN_OPTION_SYS_CONFIG,
+                ScopeInterface::SCOPE_WEBSITE,
+                $websiteId
+            );
+
+            if (!$guestLoginConfig) {
+                return true;
+            }
+
             if ($websiteId === null) {
                 $websiteId = $this->storeManager->getStore()->getWebsiteId();
             }
