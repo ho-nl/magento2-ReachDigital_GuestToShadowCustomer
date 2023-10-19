@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="restore_quote">
-        <observer name="reach_didigtal_guesttoshadowcustomer_restore_shadow_quote_to_guest_quote" instance="ReachDigital\GuestToShadowCustomer\Observer\RestoreShadowQuoteToGuestQuote" />
+        <observer name="reach_didigtal_guesttoshadowcustomer_restore_shadow_quote_to_guest_quote"
+                  instance="ReachDigital\GuestToShadowCustomer\Observer\RestoreShadowQuoteToGuestQuote" />
     </event>
 </config>

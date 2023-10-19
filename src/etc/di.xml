@@ -33,10 +33,13 @@
         <plugin name="reachDigitalGuestToShadowCustomerDisallowPasswordResetForShadowCustomers"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\DisallowPasswordResetForShadowCustomers"/>
     </type>
-
     <type name="Magento\Customer\Api\CustomerRepositoryInterface">
         <plugin name="reachDigitalGuestToShadowCustomerPreserveIsShadow"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\PreserveIsShadowWhenSavingCustomer"/>
+    </type>
+    <type name="Mollie\Payment\GraphQL\Resolver\Checkout\ProcessTransaction">
+        <plugin name="reachDigitalGuestToShadowCustomerRestoreShadowQuoteToGuestQuoteForMollieGraphQl"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\RestoreShadowQuoteToGuestQuoteForMollieGraphQl"/>
     </type>
 
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
