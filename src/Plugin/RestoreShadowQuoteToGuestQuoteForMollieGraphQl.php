@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace ReachDigital\GuestToShadowCustomer\Plugin;
 
 use Magento\Customer\Api\Data\CustomerInterfaceFactory;
+use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
 use Mollie\Api\Types\PaymentStatus;
@@ -29,8 +31,15 @@ class RestoreShadowQuoteToGuestQuoteForMollieGraphQl
      * Implement restoring quote logic for Mollie GraphQL implementation.
      * @see \ReachDigital\GuestToShadowCustomer\Observer\RestoreShadowQuoteToGuestQuote
      */
-    public function afterResolve(ProcessTransaction $subject, array $result): array
-    {
+    public function afterResolve(
+        ProcessTransaction $subject,
+        array $result,
+        Field $field,
+        $context,
+        ResolveInfo $info,
+        array $value = null,
+        array $args = null,
+    ): array {
         if (
             !isset($result['paymentStatus']) ||
             strtolower($result['paymentStatus']) != PaymentStatus::STATUS_CANCELED ||
@@ -46,6 +55,12 @@ class RestoreShadowQuoteToGuestQuoteForMollieGraphQl
             return $result;
         }
 
+        if ($context->getExtensionAttributes()->getIsCustomer() === true) {
+            // Keep customer logged in
+            return $result;
+        }
+
+        // Shadow customer created, remove logged in data from quote to make it accessible again for guest customer
         $email = $cart->getCustomerEmail();
 
         $cart->setCustomer($this->customerFactory->create());
