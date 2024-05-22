@@ -77,7 +77,7 @@ class RestoreShadowQuoteToGuestQuoteForMollieGraphQl
             $address->setCustomerAddressId(0);
         }
 
-        $this->cartRepository->save($cart);
+        $cart->save();
 
         $result['cart']['model'] = $cart;
 
