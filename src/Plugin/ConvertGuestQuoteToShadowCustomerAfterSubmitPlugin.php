@@ -54,6 +54,7 @@ class ConvertGuestQuoteToShadowCustomerAfterSubmitPlugin
         }
 
         if ($this->customerSession->isLoggedIn() === false) {
+            $guestEmail = $quote->getCustomerEmail();
             // Must set to empty customer, else it will override customer_id field,
             // see \Magento\Quote\Model\Quote::beforeSave
             $quote->setCustomer($this->customerFactory->create());
@@ -63,6 +64,13 @@ class ConvertGuestQuoteToShadowCustomerAfterSubmitPlugin
             if ($quote->getBillingAddress()) {
                 $quote->getBillingAddress()->setCustomerAddressId(null);
             }
+
+            $quote->setCustomerEmail($guestEmail);
+            foreach ($quote->getAllAddresses() as $address) {
+                $address->setCustomerId(0);
+                $address->setCustomerAddressId(0);
+            }
+
             $this->cartRepository->save($quote);
         }
 
