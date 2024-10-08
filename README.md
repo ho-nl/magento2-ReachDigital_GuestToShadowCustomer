@@ -18,6 +18,10 @@
 - Added "Shadow Customer" column in Admin > Customer/Order Grid.
 - Added "Is Shadow Customer" information on Admin > Customer/Order Edit page.
 
+## Known Issues
+- Cancelling an MSP payment does not restore the cart properly (for a fix see [this commit](https://github.com/ho-nl/magento2-ReachDigital_GuestToShadowCustomer/compare/master...msp-restore-fix))
+  - A similar fix is already applied for Mollie, see [this commit](https://github.com/ho-nl/magento2-ReachDigital_GuestToShadowCustomer/commit/99e987bea62e81c2bbc391e8a72b9fe89fe240f1)
+
 ## TODO
 
 - Config setting for enabling or disabling the blocking of password reset function if customer is shadow
