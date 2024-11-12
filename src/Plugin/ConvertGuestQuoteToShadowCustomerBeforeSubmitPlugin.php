@@ -49,7 +49,7 @@ class ConvertGuestQuoteToShadowCustomerBeforeSubmitPlugin
             $quote->getStore()
         );
 
-        if ($enabled === true) {
+        if ($enabled === true && $quote->getCustomerIsGuest()) {
             $this->convertGuestQuoteToShadowCustomer->execute($quote);
 
             $quote->getShippingAddress()->setCustomerId($quote->getCustomer()->getId());
