@@ -43,6 +43,10 @@
         <plugin name="reachDigitalGuestToShadowCustomerRestoreShadowQuoteToGuestQuoteForMollieGraphQl"
                 type="ReachDigital\GuestToShadowCustomer\Plugin\RestoreShadowQuoteToGuestQuoteForMollieGraphQl"/>
     </type>
+    <type name="MultiSafepay\ConnectGraphQl\Model\Resolver\RestoreQuote">
+        <plugin name="reachDigitalGuestToShadowCustomerRestoreShadowQuoteToGuestQuoteForMspGraphQl"
+                type="ReachDigital\GuestToShadowCustomer\Plugin\RestoreShadowQuoteToGuestQuoteForMspGraphQl"/>
+    </type>
 
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid"
                  type="Magento\Sales\Model\ResourceModel\Grid">
