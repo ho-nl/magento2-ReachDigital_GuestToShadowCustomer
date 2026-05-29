@@ -48,38 +48,34 @@ class CheckoutDefaultConfigProviderPlugin
         $this->customerSession = $customerSession;
     }
 
-    public function afterGetConfig(DefaultConfigProvider $subject, $result)
-    {
-        $result['quoteData'] = $this->getQuoteData();
-        return $result;
-    }
-
     /**
-     * Plugin created to get the correct quote ID (masked) when customer in quote is shadow customer
+     * For shadow customers and non-logged-in guests, replace the quote entity_id with the masked ID
+     * so the checkout JS uses the correct guest cart API endpoint.
      *
-     * @return array
+     * Only patches entity_id — does not replace quoteData entirely, preserving extension_attributes
+     * populated by other modules (e.g. SendCloud, Mollie).
      */
-    public function getQuoteData()
+    public function afterGetConfig(DefaultConfigProvider $subject, array $result): array
     {
-        $quoteData = [];
-        if ($this->checkoutSession->getQuote()->getId()) {
-            $quote = $this->quoteRepository->get($this->checkoutSession->getQuote()->getId());
-            $quoteData = $quote->toArray();
-            $quoteData['is_virtual'] = $quote->getIsVirtual();
-
-            $customAttributes = $quote->getCustomer()->getCustomAttributes();
-            if (
-                !$quote->getCustomer()->getId() ||
-                !$this->customerSession->isLoggedIn() ||
-                (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
-            ) {
-                /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
-                $quoteIdMask = $this->quoteIdMaskFactory->create();
-                $quoteData['entity_id'] = $quoteIdMask
-                    ->load($this->checkoutSession->getQuote()->getId(), 'quote_id')
-                    ->getMaskedId();
-            }
+        if (!$this->checkoutSession->getQuote()->getId()) {
+            return $result;
         }
-        return $quoteData;
+
+        $quote = $this->quoteRepository->get($this->checkoutSession->getQuote()->getId());
+        $customAttributes = $quote->getCustomer()->getCustomAttributes();
+
+        if (
+            !$quote->getCustomer()->getId() ||
+            !$this->customerSession->isLoggedIn() ||
+            (isset($customAttributes['is_shadow']) && $customAttributes['is_shadow']->getValue())
+        ) {
+            /** @var \Magento\Quote\Model\QuoteIdMask $quoteIdMask */
+            $quoteIdMask = $this->quoteIdMaskFactory->create();
+            $result['quoteData']['entity_id'] = $quoteIdMask
+                ->load($this->checkoutSession->getQuote()->getId(), 'quote_id')
+                ->getMaskedId();
+        }
+
+        return $result;
     }
 }

@@ -102,7 +102,8 @@ class AccountManagementInterfaceApiAroundPlugin
             try {
                 $existingCustomer = $this->customerRepository->get($customer->getEmail());
                 if ($existingCustomer) {
-                    if (!$existingCustomer->getCustomAttribute('is_shadow')->getValue()) {
+                    $isShadowAttr = $existingCustomer->getCustomAttribute('is_shadow');
+                    if (!$isShadowAttr || !$isShadowAttr->getValue()) {
                         throw new AlreadyExistsException(
                             __('A customer with the same email address already exists in an associated website.')
                         );
