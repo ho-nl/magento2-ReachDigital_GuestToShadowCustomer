@@ -37,8 +37,8 @@ class RestoreShadowQuoteToGuestQuoteForMollieGraphQl
         Field $field,
         $context,
         ResolveInfo $info,
-        array $value = null,
-        array $args = null,
+        ?array $value = null,
+        ?array $args = null,
     ): array {
         if (
             !isset($result['paymentStatus']) ||
