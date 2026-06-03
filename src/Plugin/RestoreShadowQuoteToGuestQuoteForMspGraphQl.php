@@ -14,6 +14,7 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
@@ -23,21 +24,17 @@ use MultiSafepay\ConnectCore\Util\PaymentMethodUtil;
 
 class RestoreShadowQuoteToGuestQuoteForMspGraphQl
 {
-    private CartRepositoryInterface $cartRepository;
-    private CustomerInterfaceFactory $customerFactory;
-    private MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId;
-    private PaymentMethodUtil $paymentMethodUtil;
+    private ?PaymentMethodUtil $paymentMethodUtil;
 
     public function __construct(
-        CartRepositoryInterface $cartRepository,
-        CustomerInterfaceFactory $customerFactory,
-        MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
-        PaymentMethodUtil $paymentMethodUtil
+        private CartRepositoryInterface $cartRepository,
+        private CustomerInterfaceFactory $customerFactory,
+        private MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
+        ObjectManagerInterface $objectManager
     ) {
-        $this->cartRepository = $cartRepository;
-        $this->customerFactory = $customerFactory;
-        $this->maskedQuoteIdToQuoteId = $maskedQuoteIdToQuoteId;
-        $this->paymentMethodUtil = $paymentMethodUtil;
+        $this->paymentMethodUtil = class_exists(PaymentMethodUtil::class)
+            ? $objectManager->get(PaymentMethodUtil::class)
+            : null;
     }
 
     /**
@@ -116,7 +113,7 @@ class RestoreShadowQuoteToGuestQuoteForMspGraphQl
             );
         }
 
-        if (!$this->paymentMethodUtil->isMultisafepayCart($cart)) {
+        if ($this->paymentMethodUtil !== null && !$this->paymentMethodUtil->isMultisafepayCart($cart)) {
             throw new GraphQlNoSuchEntityException(
                 __('This cart "%1" is not using a MultiSafepay payment method', $cartHash)
             );
